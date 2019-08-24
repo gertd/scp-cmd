@@ -14,9 +14,8 @@
 debug
 
 # directories
-vendor/
 bin/
 release/
-specs/
 
+# OSX specific files
 .DS_Store
