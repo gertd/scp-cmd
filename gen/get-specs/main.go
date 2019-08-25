@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	scp "gitlab.com/d5s/scp-cmd/gen/get-specs/scp"
+	scp "gitlab.com/d5s/scp-cmd/gen/pkg/scp"
 	yaml3 "gopkg.in/yaml.v3"
 )
 
