@@ -1,6 +1,7 @@
 package catalog
 
-//go:generate scpgen gen-cmd --name catalog --package catalog --output catalog-gen.go | gofmt
+//go:generate go run ../../../../gen/genoai/main.go --input ./specs/catalog.json --name catalog --package catalog --output catalog-cmds.go --tpl ./gen/tpl/gen-cmds.tpl --imports github.com/spf13/cobra
+//go:generate gofmt -w catalog-cmds.go
 
 import (
 	"github.com/spf13/cobra"
@@ -11,7 +12,6 @@ func Cmd() *cobra.Command {
 	return catalogCmd
 }
 
-// catalogCmd represents the catalog command
 var catalogCmd = &cobra.Command{
 	Use:   "catalog",
 	Short: "catalog service",

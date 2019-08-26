@@ -1,6 +1,7 @@
 package action
 
-//go:generate scpgen gen-cmd --name action --package action --output action-gen.go | gofmt
+//go:generate go run ../../../../gen/genoai/main.go --input ./specs/action.json --name action --package action --output action-cmds.go --tpl ./gen/tpl/gen-cmds.tpl --imports github.com/spf13/cobra
+//go:generate gofmt -w action-cmds.go
 
 import (
 	"github.com/spf13/cobra"
@@ -11,7 +12,6 @@ func Cmd() *cobra.Command {
 	return actionCmd
 }
 
-// catalogCmd represents the catalog command
 var actionCmd = &cobra.Command{
 	Use:   "action",
 	Short: "action service",

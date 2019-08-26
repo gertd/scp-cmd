@@ -19,3 +19,7 @@ release/
 
 # OSX specific files
 .DS_Store
+
+# generated output exclusion
+cmd/scp-cmd/cmd/*/*-cmds.go
+pkg/*/*-impl.go

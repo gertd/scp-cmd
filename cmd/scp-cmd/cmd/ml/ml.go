@@ -1,6 +1,7 @@
 package ml
 
-//go:generate scpgen gen-cmd --name ml --package ml --output ml-gen.go | gofmt
+//go:generate go run ../../../../gen/genoai/main.go --input ./specs/ml.json --name ml --package ml --output ml-cmds.go --tpl ./gen/tpl/gen-cmds.tpl --imports github.com/spf13/cobra
+//go:generate gofmt -w ml-cmds.go
 
 import (
 	"github.com/spf13/cobra"

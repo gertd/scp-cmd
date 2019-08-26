@@ -10,7 +10,6 @@ func Cmd() *cobra.Command {
 	return configCmd
 }
 
-// configCmd represents the catalog command
 var configCmd = &cobra.Command{
 	Use:   "config",
 	Short: "config service",

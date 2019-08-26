@@ -1,6 +1,7 @@
 package search
 
-//go:generate scpgen gen-cmd --name search --package search --output search-gen.go | gofmt
+//go:generate go run ../../../../gen/genoai/main.go --input ./specs/search.json --name search --package search --output search-cmds.go --tpl ./gen/tpl/gen-cmds.tpl --imports github.com/spf13/cobra
+//go:generate gofmt -w search-cmds.go
 
 import (
 	"github.com/spf13/cobra"
@@ -11,7 +12,6 @@ func Cmd() *cobra.Command {
 	return searchCmd
 }
 
-// searchCmd represents the search command
 var searchCmd = &cobra.Command{
 	Use:   "search",
 	Short: "search service",

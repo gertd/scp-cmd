@@ -1,6 +1,7 @@
 package collect
 
-//go:generate scpgen gen-cmd --name collect --package collect --output collect-gen.go | gofmt
+//go:generate go run ../../../../gen/genoai/main.go --input ./specs/collect.json --name collect --package collect --output collect-cmds.go --tpl ./gen/tpl/gen-cmds.tpl --imports github.com/spf13/cobra
+//go:generate gofmt -w collect-cmds.go
 
 import (
 	"github.com/spf13/cobra"
@@ -11,7 +12,6 @@ func Cmd() *cobra.Command {
 	return collectCmd
 }
 
-// collectCmd represents the catalog command
 var collectCmd = &cobra.Command{
 	Use:   "collect",
 	Short: "collect service",

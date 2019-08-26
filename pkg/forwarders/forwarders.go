@@ -1,3 +1,4 @@
 package forwarders
 
-//go:generate scpgen gen-impl --name forwarders --package forwarders --output forwarders-gen.go | gofmt
+//go:generate go run ../../gen/genoai/main.go --input ./specs/forwarders.json --name forwarders --package forwarders --output forwarders-impl.go --tpl ./gen/tpl/gen-impl.tpl --imports fmt --imports github.com/spf13/cobra
+//go:generate gofmt -w forwarders-impl.go

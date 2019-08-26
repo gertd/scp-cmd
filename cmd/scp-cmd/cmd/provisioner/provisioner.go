@@ -1,6 +1,7 @@
 package provisioner
 
-//go:generate scpgen gen-cmd --name provisioner --package provisioner --output provisioner-gen.go | gofmt
+//go:generate go run ../../../../gen/genoai/main.go --input ./specs/provisioner.json --name provisioner --package provisioner --output provisioner-cmds.go --tpl ./gen/tpl/gen-cmds.tpl --imports github.com/spf13/cobra
+//go:generate gofmt -w provisioner-cmds.go
 
 import (
 	"github.com/spf13/cobra"

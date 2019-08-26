@@ -1,8 +1,8 @@
 package login
 
 import (
-	impl "gitlab.com/d5s/scp-cmd/pkg/login"
 	"github.com/spf13/cobra"
+	impl "gitlab.com/d5s/scp-cmd/pkg/login"
 )
 
 // Cmd -- used to connection to rootCmd
@@ -10,7 +10,6 @@ func Cmd() *cobra.Command {
 	return loginCmd
 }
 
-// loginCmd represents the catalog command
 var loginCmd = &cobra.Command{
 	Use:   "login",
 	Short: "login service",

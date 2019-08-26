@@ -1,6 +1,7 @@
 package appreg
 
-//go:generate scpgen gen-cmd --name app-registry --package appreg --output appreg-gen.go | gofmt
+//go:generate go run ../../../../gen/genoai/main.go --input ./specs/app-registry.json --name app-registry --package appreg --output appreg-cmds.go --tpl ./gen/tpl/gen-cmds.tpl --imports github.com/spf13/cobra
+//go:generate gofmt -w appreg-cmds.go
 
 import (
 	"github.com/spf13/cobra"
@@ -11,7 +12,6 @@ func Cmd() *cobra.Command {
 	return appregCmd
 }
 
-// catalogCmd represents the catalog command
 var appregCmd = &cobra.Command{
 	Use:   "appreg",
 	Short: "application registry service",

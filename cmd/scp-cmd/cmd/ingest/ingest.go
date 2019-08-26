@@ -1,6 +1,7 @@
 package ingest
 
-//go:generate scpgen gen-cmd --name ingest --package ingest --output ingest-gen.go | gofmt
+//go:generate go run ../../../../gen/genoai/main.go --input ./specs/ingest.json --name ingest --package ingest --output ingest-cmds.go --tpl ./gen/tpl/gen-cmds.tpl --imports github.com/spf13/cobra
+//go:generate gofmt -w ingest-cmds.go
 
 import (
 	"github.com/spf13/cobra"

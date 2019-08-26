@@ -85,7 +85,6 @@ func main() {
 		var writer *os.File
 		fileName := fmt.Sprintf("./%s.%s", serviceName, format)
 		writer, err = os.Create(fileName)
-		// writer = os.Stdout
 		defer writer.Close()
 
 		if format == scp.FormatJSON {
@@ -93,6 +92,8 @@ func main() {
 		} else if format == scp.FormatYAML {
 			writeYAML(spec, writer)
 		}
+
+		log.Printf("%s", fileName)
 	}
 }
 
