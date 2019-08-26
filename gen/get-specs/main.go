@@ -85,6 +85,9 @@ func main() {
 		var writer *os.File
 		fileName := fmt.Sprintf("./%s.%s", serviceName, format)
 		writer, err = os.Create(fileName)
+		if err != nil {
+			log.Fatal(err)
+		}
 		defer writer.Close()
 
 		if format == scp.FormatJSON {

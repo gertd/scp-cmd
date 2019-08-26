@@ -23,3 +23,6 @@ release/
 # generated output exclusion
 cmd/scp-cmd/cmd/*/*-cmds.go
 pkg/*/*-impl.go
+
+# SCP artifacts
+appreg.json

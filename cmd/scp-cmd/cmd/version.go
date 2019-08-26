@@ -5,9 +5,9 @@ const (
 	appDescr = "Splunk Cloud Platform command line"
 )
 
-// version infomation block set via ldflags
+// version information block, set via ldflags
 var (
-	semVersion string
-	commitHash string
-	buildDate  string
+	version string
+	commit  string
+	date    string
 )

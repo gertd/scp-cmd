@@ -23,11 +23,6 @@ import (
 	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/streams"
 )
 
-var (
-	cfgFile string
-	tenant  string
-)
-
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     appName,
@@ -44,7 +39,6 @@ func Execute() {
 }
 
 func init() {
-	// cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().String("tenant", "", "tenant identifier")
 
@@ -63,23 +57,20 @@ func init() {
 	rootCmd.AddCommand(streams.Cmd())
 }
 
-// func initConfig() {
-// }
-
 func versionInfo() string {
 
-	versionString := semVersion
+	versionString := version
 	if versionString == "" {
 		versionString = "0.0.0"
 	}
 
-	commitString := commitHash
-	if commitHash == "" {
+	commitString := commit
+	if commitString == "" {
 		commitString = "develop"
 	}
 
-	buildString := buildDate
-	if buildDate == "" {
+	buildString := date
+	if buildString == "" {
 		buildString = time.Now().Format(time.RFC3339)
 	}
 
