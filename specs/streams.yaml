@@ -905,6 +905,38 @@ components:
                     example: ""
                     type: string
             type: object
+        SplCompileRequest:
+            description: ""
+            properties:
+                spl:
+                    description: The SPL2 representation of a pipeline or function
+                        parameters.
+                    example: ""
+                    type: string
+                syntax:
+                    description: The parse parameters as arguments to this SPL2 command
+                    enum:
+                      - UPL
+                      - DSL
+                      - SPL
+                      - EVAL
+                      - WHERE
+                      - TIMECHART
+                      - FIELDS
+                      - MVEXPAND
+                      - REX
+                      - BIN
+                      - RENAME
+                      - STATS
+                      - STATS_BY
+                      - SELECT
+                      - LITERAL
+                      - UNKNOWN
+                    example: ""
+                    type: string
+            required:
+              - spl
+            type: object
         TemplatePatchRequest:
             description: ""
             properties:
@@ -982,6 +1014,11 @@ components:
             properties:
                 elementType:
                     properties: {}
+                optional:
+                    type: boolean
+                position:
+                    format: int32
+                    type: integer
                 type:
                     type: string
             required:
@@ -2121,6 +2158,47 @@ paths:
                     content: {}
                     description: Not Found
             summary: Compiles the Streams DSL and returns Streams JSON.
+            tags:
+              - apiv-2-beta-1-pipeline-controller
+            x-authz-scope: streams.pipelines.update
+    /{tenantId}/streams/v2beta1/pipelines/compile-spl:
+        post:
+            deprecated: false
+            operationId: compileSPL
+            parameters:
+              - description: ID of the tenant
+                in: path
+                name: tenantId
+                required: true
+                schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SplCompileRequest'
+                description: Request JSON
+                required: true
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UplPipeline'
+                    description: OK
+                "201":
+                    content: {}
+                    description: Created
+                "401":
+                    content: {}
+                    description: Unauthorized
+                "403":
+                    content: {}
+                    description: Forbidden
+                "404":
+                    content: {}
+                    description: Not Found
+            summary: Compiles SPL2 and returns Streams JSON.
             tags:
               - apiv-2-beta-1-pipeline-controller
             x-authz-scope: streams.pipelines.update

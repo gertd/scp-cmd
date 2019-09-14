@@ -9,7 +9,7 @@ import (
 	{{ . | printf "%q" }}
 	{{ end -}}
 	{{ end -}}
-    impl "gitlab.com/d5s/scp-cmd/pkg/{{ .PackageName }}"
+    impl "github.com/gertd/scp-cmd/pkg/{{ .PackageName }}"
 )
 
 {{ range $apiName, $api := .Service.APIMap }}

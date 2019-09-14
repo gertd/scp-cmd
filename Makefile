@@ -11,7 +11,7 @@ VERSION    :=`git describe --tags --dirty 2>/dev/null`
 COMMIT     :=`git rev-parse --short HEAD 2>/dev/null`
 DATE       :=`date "+%FT%T%z"`
 
-LDBASE     := gitlab.com/d5s/scp-cmd/cmd/scp-cmd
+LDBASE     := github.com/gertd/scp-cmd/cmd/scp-cmd
 LDFLAGS    := -ldflags "-w -s -X $(LDBASE)/cmd.version=${VERSION} -X $(LDBASE)/cmd.date=${DATE} -X $(LDBASE)/cmd.commit=${COMMIT}"
 
 PLATFORMS  := windows linux darwin

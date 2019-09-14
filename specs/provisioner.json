@@ -11,6 +11,16 @@
           "type": "string"
         }
       },
+      "Entitlement": {
+        "in": "path",
+        "name": "entitlement",
+        "required": true,
+        "schema": {
+          "maxLength": 100,
+          "minLength": 4,
+          "type": "string"
+        }
+      },
       "InviteId": {
         "in": "path",
         "name": "inviteId",
@@ -55,11 +65,11 @@
       }
     },
     "requestBodies": {
-      "UpdateEntitlementsBody": {
+      "SetEntitlement": {
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/UpdateEntitlementsBody"
+              "$ref": "#/components/schemas/SetEntitlement"
             }
           }
         },
@@ -108,16 +118,18 @@
         ],
         "type": "object"
       },
-      "EntitlementLog": {
+      "Entitlement": {
         "properties": {
-          "action": {
-            "type": "string"
-          },
           "name": {
             "type": "string"
           },
           "sku": {
+            "maxLength": 100,
+            "minLength": 2,
             "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EntitlementStatus"
           },
           "updatedAt": {
             "format": "date-time",
@@ -136,23 +148,23 @@
           "value",
           "updatedAt",
           "updatedBy",
-          "action"
+          "status"
         ],
         "type": "object"
       },
-      "EntitlementLogs": {
-        "items": {
-          "$ref": "#/components/schemas/EntitlementLog"
-        },
-        "type": "array"
-      },
-      "EntitlementSetting": {
+      "EntitlementLog": {
         "properties": {
+          "action": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
           "sku": {
             "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EntitlementStatus"
           },
           "updatedAt": {
             "format": "date-time",
@@ -170,15 +182,32 @@
           "sku",
           "value",
           "updatedAt",
-          "updatedBy"
+          "updatedBy",
+          "action",
+          "status"
         ],
         "type": "object"
       },
-      "EntitlementSettings": {
+      "EntitlementLogs": {
         "items": {
-          "$ref": "#/components/schemas/EntitlementSetting"
+          "$ref": "#/components/schemas/EntitlementLog"
         },
         "type": "array"
+      },
+      "EntitlementSettings": {
+        "items": {
+          "$ref": "#/components/schemas/Entitlement"
+        },
+        "type": "array"
+      },
+      "EntitlementStatus": {
+        "enum": [
+          "active",
+          "provisioning",
+          "failed",
+          "deleting"
+        ],
+        "type": "string"
       },
       "Error": {
         "properties": {
@@ -402,6 +431,23 @@
         },
         "type": "array"
       },
+      "SetEntitlement": {
+        "properties": {
+          "sku": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          },
+          "value": {
+            "$ref": "#/components/schemas/AnyValue"
+          }
+        },
+        "required": [
+          "sku",
+          "value"
+        ],
+        "type": "object"
+      },
       "TenantInfo": {
         "properties": {
           "createdAt": {
@@ -431,47 +477,6 @@
           "$ref": "#/components/schemas/TenantInfo"
         },
         "type": "array"
-      },
-      "UpdateEntitlement": {
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "sku": {
-            "maxLength": 36,
-            "minLength": 2,
-            "type": "string"
-          },
-          "value": {
-            "$ref": "#/components/schemas/AnyValue"
-          }
-        },
-        "required": [
-          "name",
-          "sku",
-          "value"
-        ],
-        "type": "object"
-      },
-      "UpdateEntitlementsBody": {
-        "items": {
-          "$ref": "#/components/schemas/UpdateEntitlement"
-        },
-        "type": "array"
-      },
-      "UpdateEntitlementsResponse": {
-        "properties": {
-          "failed": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "failed"
-        ],
-        "type": "object"
       },
       "UpdateInviteBody": {
         "properties": {

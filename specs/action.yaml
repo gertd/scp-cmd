@@ -315,7 +315,7 @@ info:
     description: |
         With the Splunk Cloud Action service, you can receive incoming trigger events and use pre-defined action templates to turn these events into meaningful actions.
     title: Action Service
-    version: v1beta2.8
+    version: v1beta2.9
 openapi: 3.0.0
 paths:
     /{tenant}/action/v1beta2/actions:
@@ -507,7 +507,8 @@ paths:
                         Location:
                             description: The URL of the run status, with the format
                                 "{tenant}/action/v1beta2/actions/{action_name}/status/{status_id}".
-                                Send a GET request to this URL to check the status.
+                                Send a GET request to this URL to check the status,
+                                which will be available for 4 days.
                             schema:
                                 type: string
                 "400":
@@ -550,7 +551,8 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ServiceError'
                     description: An error occurred.
-            summary: Returns the status of a triggered action.
+            summary: Returns the status of a triggered action.  Available for 4 days
+                after last status change.
             tags:
               - Actions
             x-authz-scope: action.actions.read
@@ -583,7 +585,8 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ServiceError'
                     description: An error occurred.
-            summary: Returns the status details of the triggered email action.
+            summary: Returns the status details of the triggered email action.  Available
+                for 4 days after last status change.
             tags:
               - Actions
             x-authz-scope: action.actions.read

@@ -12,7 +12,7 @@ import (
 
 	"github.com/getkin/kin-openapi/openapi3"
 	flag "github.com/spf13/pflag"
-	"gitlab.com/d5s/scp-cmd/gen/pkg/gen"
+	"github.com/gertd/scp-cmd/gen/pkg/gen"
 )
 
 type config struct {

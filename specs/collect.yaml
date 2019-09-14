@@ -110,6 +110,96 @@ components:
               - code
               - message
             type: object
+        execution:
+            properties:
+                executionUid:
+                    readOnly: true
+                    title: executionUid
+                    type: string
+                jobId:
+                    readOnly: true
+                    title: jobId
+                    type: string
+                status:
+                    description: The given status of the execution
+                    enum:
+                      - pending
+                      - running
+                      - completed
+                      - aborted
+                      - canceled
+                    readOnly: true
+                    title: status
+                    type: string
+                tenant:
+                    readOnly: true
+                    title: tenant
+                    type: string
+            title: execution
+            type: object
+        executionConflictError:
+            allOf:
+              - properties:
+                    code:
+                        title: code
+                        type: string
+                    details:
+                        description: The optional details of the error.
+                        title: details
+                        type: object
+                    message:
+                        title: message
+                        type: string
+                    moreInfo:
+                        description: An optional link to a web page with more information
+                            on the error.
+                        title: moreInfo
+                        type: string
+                required:
+                  - code
+                  - message
+                type: object
+              - properties:
+                    data:
+                        properties:
+                            executionUid:
+                                readOnly: true
+                                title: executionUid
+                                type: string
+                            jobId:
+                                readOnly: true
+                                title: jobId
+                                type: string
+                            status:
+                                description: The given status of the execution
+                                enum:
+                                  - pending
+                                  - running
+                                  - completed
+                                  - aborted
+                                  - canceled
+                                readOnly: true
+                                title: status
+                                type: string
+                            tenant:
+                                readOnly: true
+                                title: tenant
+                                type: string
+                        title: execution
+                        type: object
+                required:
+                  - data
+                type: object
+        executionPatch:
+            properties:
+                status:
+                    description: The given status of the execution
+                    enum:
+                      - canceled
+                    title: status
+                    type: string
+            title: executionPatch
+            type: object
         job:
             allOf:
               - properties:
@@ -650,6 +740,12 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/error'
                     description: The client sent too many requests.
+                "501":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                    description: The server cannot handle the request.
                 "503":
                     content:
                         application/json:
@@ -1018,6 +1114,12 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/error'
                     description: The client sent too many requests.
+                "501":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                    description: The server cannot handle the request.
                 "503":
                     content:
                         application/json:

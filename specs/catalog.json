@@ -351,6 +351,9 @@
         "type": "object"
       },
       "Annotation": {
+        "additionalProperties": {
+          "type": "string"
+        },
         "allOf": [
           {
             "$ref": "#/components/schemas/AnnotationsProperties"
@@ -387,6 +390,9 @@
         "type": "object"
       },
       "AnnotationPOST": {
+        "additionalProperties": {
+          "type": "string"
+        },
         "allOf": [
           {
             "$ref": "#/components/schemas/AnnotationsProperties"

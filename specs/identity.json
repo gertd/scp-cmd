@@ -79,6 +79,16 @@
           "type": "string"
         }
       },
+      "key": {
+        "description": "The API key name.",
+        "in": "path",
+        "name": "key",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "x-case-insensitive": true
+      },
       "member": {
         "description": "The member name.",
         "in": "path",
@@ -89,6 +99,19 @@
           "type": "string"
         },
         "x-case-insensitive": true
+      },
+      "memberKind": {
+        "description": "Kind of member, one of: [user, service_account]",
+        "in": "query",
+        "name": "kind",
+        "required": false,
+        "schema": {
+          "enum": [
+            "user",
+            "service_account"
+          ],
+          "type": "string"
+        }
       },
       "nonce": {
         "description": "Nonce to prevent replay attacks",
@@ -214,7 +237,20 @@
         "required": true,
         "schema": {
           "enum": [
-            "v2beta1"
+            "v2beta1",
+            "v2alpha1"
+          ],
+          "type": "string"
+        }
+      },
+      "version2alpha1": {
+        "description": "Service API version 2 alpha 1.",
+        "in": "path",
+        "name": "version2alpha1",
+        "required": true,
+        "schema": {
+          "enum": [
+            "v2alpha1"
           ],
           "type": "string"
         }
@@ -338,6 +374,22 @@
         ],
         "type": "object"
       },
+      "ChangeKeyBody": {
+        "properties": {
+          "permissions": {
+            "items": {
+              "minLength": 4,
+              "type": "string",
+              "x-case-insensitive": true
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "permissions"
+        ],
+        "type": "object"
+      },
       "ChangeSubscriptionBody": {
         "properties": {
           "appPermissions": {
@@ -394,6 +446,34 @@
         },
         "required": [
           "name"
+        ],
+        "type": "object"
+      },
+      "CreateKeyBody": {
+        "properties": {
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 36,
+            "minLength": 4,
+            "pattern": "^[_a-z][_.a-z0-9]*$",
+            "type": "string"
+          },
+          "permissions": {
+            "items": {
+              "minLength": 4,
+              "type": "string",
+              "x-case-insensitive": true
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "name",
+          "permissions",
+          "expiresAt"
         ],
         "type": "object"
       },
@@ -628,6 +708,85 @@
         },
         "type": "object"
       },
+      "Key": {
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "permissions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "rotatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "tenant": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "KeySecret": {
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "permissions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "rotatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "tenant": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "Member": {
         "description": "Represents a member that belongs to a tenant.",
         "properties": {
@@ -638,6 +797,9 @@
           },
           "addedBy": {
             "type": "string"
+          },
+          "groupCount": {
+            "type": "integer"
           },
           "name": {
             "type": "string"
@@ -653,7 +815,8 @@
           "tenant",
           "name",
           "addedAt",
-          "addedBy"
+          "addedBy",
+          "groupCount"
         ],
         "type": "object"
       },
@@ -752,6 +915,21 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "PrincipalTos": {
+        "properties": {
+          "hasAccepted": {
+            "type": "boolean"
+          },
+          "principal": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "principal",
+          "hasAccepted"
+        ],
         "type": "object"
       },
       "RevokePrincipalBody": {
@@ -1066,35 +1244,6 @@
           "$ref": "#/components/parameters/principal"
         }
       ]
-    },
-    "/system/identity/v2beta1/principals/{principal}/revoke": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/principal"
-        }
-      ],
-      "post": {
-        "description": "Revoke all existing tokens issued to a principal",
-        "operationId": "revokePrincipalAuthTokens",
-        "responses": {
-          "204": {
-            "description": "Successful operation"
-          },
-          "400": {
-            "description": "Malformed request"
-          },
-          "401": {
-            "description": "Unauthenticated user"
-          },
-          "403": {
-            "description": "Unauthorized operation"
-          },
-          "404": {
-            "description": "Resource not found"
-          }
-        },
-        "x-authz-scope": "identity.principals.revoke"
-      }
     },
     "/{tenant}/identity/v2beta1/groups": {
       "get": {

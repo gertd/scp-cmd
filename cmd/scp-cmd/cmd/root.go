@@ -8,19 +8,19 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/action"
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/appreg"
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/catalog"
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/collect"
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/config"
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/forwarders"
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/identity"
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/ingest"
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/login"
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/ml"
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/provisioner"
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/search"
-	"gitlab.com/d5s/scp-cmd/cmd/scp-cmd/cmd/streams"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/action"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/appreg"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/catalog"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/collect"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/config"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/forwarders"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/identity"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/ingest"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/login"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/ml"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/provisioner"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/search"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/streams"
 )
 
 // rootCmd represents the base command when called without any subcommands

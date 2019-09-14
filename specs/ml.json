@@ -324,6 +324,57 @@
         ],
         "type": "object"
       },
+      "InputStream": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "Kafka"
+            ]
+          },
+          "source": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/KafkaInput"
+              }
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "source"
+        ],
+        "type": "object"
+      },
+      "KafkaInput": {
+        "properties": {
+          "offsetReset": {
+            "default": "latest",
+            "enum": [
+              "earliest",
+              "latest"
+            ],
+            "type": "string"
+          },
+          "topic": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "topic"
+        ],
+        "type": "object"
+      },
+      "KafkaOutput": {
+        "properties": {
+          "topic": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "topic"
+        ],
+        "type": "object"
+      },
       "OutputData": {
         "properties": {
           "destination": {
@@ -339,6 +390,27 @@
             ]
           }
         },
+        "type": "object"
+      },
+      "OutputStream": {
+        "properties": {
+          "destination": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/KafkaOutput"
+              }
+            ]
+          },
+          "kind": {
+            "enum": [
+              "Kafka"
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "destination"
+        ],
         "type": "object"
       },
       "RawData": {
@@ -1006,6 +1078,60 @@
           "id",
           "workflowId",
           "buildId"
+        ],
+        "type": "object"
+      },
+      "WorkflowStreamDeployment": {
+        "properties": {
+          "creationTime": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "endTime": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "id": {
+            "readOnly": true,
+            "type": "string"
+          },
+          "input": {
+            "$ref": "#/components/schemas/InputStream"
+          },
+          "name": {
+            "pattern": "^[A-Za-z][A-Za-z0-9_]*$",
+            "type": "string"
+          },
+          "output": {
+            "$ref": "#/components/schemas/OutputStream"
+          },
+          "spec": {
+            "$ref": "#/components/schemas/DeploymentSpec"
+          },
+          "startTime": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "running",
+              "failed",
+              "success",
+              "scheduled"
+            ],
+            "readOnly": true
+          },
+          "workflowBuild": {
+            "$ref": "#/components/schemas/WorkflowBuild",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "input",
+          "output"
         ],
         "type": "object"
       },
@@ -2217,6 +2343,136 @@
           "description": "The workflow run ID.",
           "in": "path",
           "name": "runId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/{tenant}/ml/v2beta1/workflows/{id}/builds/{buildId}/stream-deployments": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Tenant"
+        },
+        {
+          "description": "The workflow ID.",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "description": "The workflow build ID.",
+          "in": "path",
+          "name": "buildId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "createWorkflowStreamDeployment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkflowStreamDeployment"
+              }
+            }
+          },
+          "description": "Configuration for the workflow streaming deployment.",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowStreamDeployment"
+                }
+              }
+            },
+            "description": "The workflow streaming deployment was created successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error500"
+          }
+        },
+        "summary": "Creates a workflow streaming deployment.",
+        "tags": [
+          "Workflow"
+        ],
+        "x-authz-scope": "ml.deployments.create"
+      }
+    },
+    "/{tenant}/ml/v2beta1/workflows/{id}/builds/{buildId}/stream-deployments/{streamDeploymentId}": {
+      "delete": {
+        "operationId": "deleteWorkflowStreamDeployment",
+        "responses": {
+          "204": {
+            "description": "The workflow streaming deployment was removed successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error500"
+          }
+        },
+        "summary": "Removes a workflow streaming deployment.",
+        "tags": [
+          "Workflow"
+        ],
+        "x-authz-scope": "ml.deployments.delete"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Tenant"
+        },
+        {
+          "description": "The workflow ID.",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "description": "The workflow build ID.",
+          "in": "path",
+          "name": "buildId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "description": "The workflow streaming deployment ID.",
+          "in": "path",
+          "name": "streamDeploymentId",
           "required": true,
           "schema": {
             "type": "string"
