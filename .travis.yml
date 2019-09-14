@@ -1,0 +1,28 @@
+language: go
+go:
+- 1.12.9
+cache:
+  directories:
+  - "$HOME/local"
+script:
+- make
+before_install: 
+install: 
+before_deploy:
+- make VERSION=${TRAVIS_TAG} release -j3
+- ls release/
+deploy:
+  provider: releases
+  api_key:
+    secure: s4WlR60obXaggrqRb/OlSc1Sl91bXUnkJw2U/rgcxp/49VhMNHVE+Bp7xE1FCH791217pLmE25VU3HpM9a3aPdCnHSFp49Q2guVwVRRzD5Y3Wam8c9E71F6/hMBBuo+fgoQBS+Wf+IMFg5Cj+oidEAV74bbVKD4tL41UPluyQgG1QaZlRwmYi0qO3/4B0+B/VyLeAjAuOkRCcHCmYXtV2qJsDdqORSfP8LRDiSdDx8No84puID4j6E1G5xbQfg2W18QxTRe7hbUZg518oqHqKeXiofmRWQw0CVqbSx05UNK1B8Vkd1/3iIKaG+Q6QQNIB84I4dzT4bCwzhf7SOgwU9YniKnWYIH3Y1bK1lYriZtStHuX5odN91t1JRaHLC6A+Rwf+PywIqLC4ZXLqqKXRnmnF2EMCsiKdM0WpyK+Ddm7x1x0JTUEsrK/B2VQeNCCBhBKJdsu6FHSDls+jruPa6F4UpQpC7H3HPiWe4yayV1+IQDSfqw0DpjLaOhzOrEiCUcyr3a8FZP0WXyvEMhs2ZXORwId30BbTzSJTftoLmi7wM/ERR6TOMbBbk+YJuGB2i/CkioB5aFkTXT+hI1FeWN9xTwSN4MtioXdgN+s6/ATW6qnPsyVe5zQJUiQafepXmNkFIXf873HbRC7/E5B8IFNUHNsB7l+3vDyHtvKCA8=
+  file_glob: true
+  file: release/*
+  skip_cleanup: true
+  on:
+    tags: true
+notifications:
+  email: false
+env:
+  global:
+  - PATH=$PATH:$HOME/local/bin
+  - GO111MODULE=on
