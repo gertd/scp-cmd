@@ -50,6 +50,12 @@ components:
                     schema:
                         $ref: '#/components/schemas/Error'
             description: The resource wasn't found.
+        Error429:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Error'
+            description: Too many requests were sent.
         Error500:
             content:
                 application/json:
@@ -807,7 +813,7 @@ components:
                     type: string
             type: object
 info:
-    title: Machine Learning Service (ML API)
+    title: Machine Learning service in Splunk Cloud Services
     version: v2beta1.1
 openapi: 3.0.0
 paths:
@@ -829,6 +835,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns a list of workflow configurations.
@@ -859,6 +867,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Creates a workflow configuration.
@@ -879,6 +889,8 @@ paths:
                     $ref: '#/components/responses/Error403'
                 "404":
                     $ref: '#/components/responses/Error404'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Removes a workflow configuration.
@@ -900,6 +912,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns a workflow configuration.
@@ -932,6 +946,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns a list of workflow builds.
@@ -968,6 +984,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Creates a workflow build.
@@ -988,6 +1006,8 @@ paths:
                     $ref: '#/components/responses/Error403'
                 "404":
                     $ref: '#/components/responses/Error404'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Removes a workflow build.
@@ -1009,6 +1029,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns the status of a workflow build.
@@ -1047,6 +1069,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns a list of workflow deployments.
@@ -1089,6 +1113,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Creates a workflow deployment.
@@ -1109,6 +1135,8 @@ paths:
                     $ref: '#/components/responses/Error403'
                 "404":
                     $ref: '#/components/responses/Error404'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Removes a workflow deployment.
@@ -1130,6 +1158,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns the status of a workflow deployment.
@@ -1172,6 +1202,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns a list of workflow deployment errors.
@@ -1241,6 +1273,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Creates a workflow inference request.
@@ -1263,6 +1297,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns the logs from a workflow deployment.
@@ -1305,6 +1341,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns a list of workflow errors.
@@ -1341,6 +1379,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns the logs from a workflow build.
@@ -1379,6 +1419,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns a list of workflow runs.
@@ -1421,6 +1463,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Creates a workflow run.
@@ -1441,6 +1485,8 @@ paths:
                     $ref: '#/components/responses/Error403'
                 "404":
                     $ref: '#/components/responses/Error404'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Removes a workflow run.
@@ -1462,6 +1508,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns the status of a workflow run.
@@ -1504,6 +1552,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns the errors for a workflow run.
@@ -1546,6 +1596,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Returns the logs for a workflow run.
@@ -1609,6 +1661,8 @@ paths:
                     $ref: '#/components/responses/Error401'
                 "403":
                     $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Creates a workflow streaming deployment.
@@ -1629,12 +1683,37 @@ paths:
                     $ref: '#/components/responses/Error403'
                 "404":
                     $ref: '#/components/responses/Error404'
+                "429":
+                    $ref: '#/components/responses/Error429'
                 "500":
                     $ref: '#/components/responses/Error500'
             summary: Removes a workflow streaming deployment.
             tags:
               - Workflow
             x-authz-scope: ml.deployments.delete
+        get:
+            operationId: getWorkflowStreamDeployment
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/WorkflowStreamDeployment'
+                    description: Returns the status of a workflow streaming deployment.
+                "400":
+                    $ref: '#/components/responses/Error400'
+                "401":
+                    $ref: '#/components/responses/Error401'
+                "403":
+                    $ref: '#/components/responses/Error403'
+                "429":
+                    $ref: '#/components/responses/Error429'
+                "500":
+                    $ref: '#/components/responses/Error500'
+            summary: Returns the status of a workflow streaming deployment.
+            tags:
+              - Workflow
+            x-authz-scope: ml.deployments.read
         parameters:
           - $ref: '#/components/parameters/Tenant'
           - description: The workflow ID.
@@ -1656,7 +1735,8 @@ paths:
             schema:
                 type: string
 tags:
-  - description: With the Splunk Cloud Machine Learning service, you can create ML
-        workflows, build and persist models of those workflows, and generate insights
-        on new data.
+  - description: Use the Machine Learning service in Splunk Cloud Services to deliver
+        resource intensive machine learning workloads. The Machine Learning service
+        covers model experimentation, training, inference, validation, scoring, and
+        serving.
     name: mlTag

@@ -1,0 +1,466 @@
+{
+  "components": {
+    "parameters": {
+      "AuthorizationHeader": {
+        "description": "The access token, which is obtained from a known identity provider.",
+        "in": "header",
+        "name": "Authorization",
+        "required": true,
+        "schema": {
+          "pattern": "^Bearer .+",
+          "type": "string"
+        }
+      },
+      "ID": {
+        "in": "path",
+        "name": "id",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Tenant": {
+        "description": "The tenant name.",
+        "example": "wingdings-widgets",
+        "in": "path",
+        "name": "tenant",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "Address": {
+        "properties": {
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "line1": {
+            "type": "string"
+          },
+          "line2": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Customer": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CustomerImmutable"
+          },
+          {
+            "$ref": "#/components/schemas/CustomerMutable"
+          }
+        ]
+      },
+      "CustomerImmutable": {
+        "properties": {
+          "createdAt": {
+            "description": "unix timestamp when the customer is created",
+            "readOnly": true,
+            "type": "integer"
+          },
+          "createdBy": {
+            "description": "The user who created this customer",
+            "readOnly": true,
+            "type": "string"
+          },
+          "currency": {
+            "description": "iso code for the currency https://www.iso.org/iso-4217-currency-codes.html set when subscription is created\n",
+            "readOnly": true,
+            "type": "string"
+          },
+          "id": {
+            "description": "customer id",
+            "readOnly": true,
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "unix timestamp when the customer is updated",
+            "readOnly": true,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "CustomerMutable": {
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "companyName": {
+            "description": "name of the business",
+            "type": "string"
+          },
+          "description": {
+            "description": "Short paragraph describing the customer.",
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "email": {
+            "description": "billing email",
+            "type": "string"
+          },
+          "name": {
+            "description": "customer name.",
+            "type": "string"
+          },
+          "phone": {
+            "description": "billing phone number",
+            "type": "string"
+          },
+          "source": {
+            "description": "source of payment, normally it's a card token from stripe",
+            "type": "string",
+            "writeOnly": true
+          },
+          "tenant": {
+            "$ref": "#/components/schemas/Tenant"
+          }
+        },
+        "required": [
+          "email"
+        ],
+        "type": "object"
+      },
+      "InternalSubscriptionMutable": {
+        "properties": {
+          "currentPeriodEnd": {
+            "description": "unix timestamp for current period end time",
+            "type": "integer"
+          },
+          "currentPeriodStart": {
+            "description": "unix timestamp for current period start time",
+            "type": "integer"
+          },
+          "customerUsername": {
+            "description": "The sfdc username for the customer to create a tenant association with. This username must exist in Okta",
+            "type": "string",
+            "writeOnly": true
+          }
+        },
+        "type": "object"
+      },
+      "InternalSubscriptionPatchRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SubscriptionPatchRequest"
+          },
+          {
+            "$ref": "#/components/schemas/InternalSubscriptionMutable"
+          }
+        ]
+      },
+      "InternalSubscriptionPostRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SubscriptionPostRequest"
+          },
+          {
+            "$ref": "#/components/schemas/InternalSubscriptionMutable"
+          }
+        ]
+      },
+      "InvitationRecord": {
+        "properties": {
+          "createdAt": {
+            "description": "unix timestamp when the invitation record is created",
+            "readOnly": true,
+            "type": "integer"
+          },
+          "email": {
+            "description": "email for validation and book keeping purposes",
+            "type": "string"
+          },
+          "id": {
+            "description": "subscription id",
+            "readOnly": true,
+            "type": "string"
+          },
+          "invitationId": {
+            "description": "invitation ID that provisioner returns from POST /invitations call",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "unix timestamp when the invitation record is updated",
+            "readOnly": true,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "Plan": {
+        "properties": {
+          "amount": {
+            "description": "unit price charged during the interval",
+            "readOnly": true,
+            "type": "integer"
+          },
+          "app": {
+            "default": "investigate",
+            "description": "app which this plan belongs to. For example investigate, carlsbad, etc",
+            "readOnly": true,
+            "type": "string"
+          },
+          "billing_scheme": {
+            "readOnly": true,
+            "type": "string"
+          },
+          "category": {
+            "default": "standard",
+            "description": "describe the category a plan",
+            "enum": [
+              "trial",
+              "standard",
+              "po"
+            ],
+            "readOnly": true,
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "unix timestamp when the plan is created",
+            "readOnly": true,
+            "type": "integer"
+          },
+          "currency": {
+            "description": "iso code for the currency https://www.iso.org/iso-4217-currency-codes.html",
+            "readOnly": true,
+            "type": "string"
+          },
+          "entitlements": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "entitlements defining a certain feature enablement or limit",
+            "readOnly": true,
+            "type": "object"
+          },
+          "id": {
+            "description": "plan ID",
+            "type": "string"
+          },
+          "interval": {
+            "description": "billing interval",
+            "readOnly": true,
+            "type": "string"
+          },
+          "intervalCount": {
+            "description": "The number of intervals (specified in the interval property) between subscription billings",
+            "readOnly": true,
+            "type": "integer"
+          },
+          "maxQuantity": {
+            "description": "maxium number of units a user can purchase",
+            "readOnly": true,
+            "type": "integer"
+          },
+          "nickname": {
+            "readOnly": true,
+            "type": "string"
+          },
+          "productId": {
+            "description": "product id whose pricing this plan determines.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "sku": {
+            "description": "SKU of the plan",
+            "readOnly": true,
+            "type": "string"
+          },
+          "usageType": {
+            "description": "configures how the quantity per period should be determined, can be either metered or licensed",
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ServiceError": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object"
+          },
+          "message": {
+            "type": "string"
+          },
+          "moreInfo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object"
+      },
+      "Status": {
+        "properties": {
+          "status": {
+            "enum": [
+              "active",
+              "provisioning",
+              "failed",
+              "deleting"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Subscription": {
+        "properties": {
+          "createdAt": {
+            "description": "unix timestamp when the subscription is created",
+            "readOnly": true,
+            "type": "integer"
+          },
+          "createdBy": {
+            "description": "The user who created this subscription.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "currentPeriodEnd": {
+            "description": "unix timestamp for current period end time",
+            "readOnly": true,
+            "type": "integer"
+          },
+          "currentPeriodStart": {
+            "description": "unix timestamp for current period start time",
+            "readOnly": true,
+            "type": "integer"
+          },
+          "id": {
+            "description": "subscription id",
+            "readOnly": true,
+            "type": "string"
+          },
+          "subscriptionItems": {
+            "items": {
+              "$ref": "#/components/schemas/SubscriptionItem"
+            },
+            "type": "array"
+          },
+          "updatedAt": {
+            "description": "unix timestamp when the subscription is updated",
+            "readOnly": true,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "SubscriptionItem": {
+        "properties": {
+          "createdAt": {
+            "description": "unix timestamp when the subscription item is created",
+            "readOnly": true,
+            "type": "integer"
+          },
+          "plan": {
+            "$ref": "#/components/schemas/Plan"
+          },
+          "planId": {
+            "description": "ID of the plan",
+            "type": "string"
+          },
+          "quantity": {
+            "default": 1,
+            "description": "the quantity of the plan to which the customer should be subscribed",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "planId",
+          "plan",
+          "quantity"
+        ],
+        "type": "object"
+      },
+      "SubscriptionPatchRequest": {
+        "properties": {
+          "subscriptionItems": {
+            "items": {
+              "properties": {
+                "delete": {
+                  "default": false,
+                  "description": "mark item to be deleted",
+                  "type": "boolean"
+                },
+                "planId": {
+                  "description": "ID of the plan",
+                  "type": "string"
+                },
+                "quantity": {
+                  "default": 1,
+                  "description": "the quantity of the plan to which the customer should be subscribed",
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "planId",
+                "quantity"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "SubscriptionPostRequest": {
+        "properties": {
+          "subscriptionItems": {
+            "items": {
+              "properties": {
+                "planId": {
+                  "description": "ID of the plan",
+                  "type": "string"
+                },
+                "quantity": {
+                  "default": 1,
+                  "description": "the quantity of the plan to which the customer should be subscribed",
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "planId",
+                "quantity"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "tenant": {
+            "$ref": "#/components/schemas/Tenant"
+          }
+        },
+        "type": "object"
+      },
+      "Tenant": {
+        "description": "tenant name if the first component of the URL path is system",
+        "type": "string"
+      }
+    }
+  },
+  "info": {
+    "description": "Manage all aspects of commerce\n",
+    "title": "Commerce Service",
+    "version": "v1"
+  },
+  "openapi": "3.0.0",
+  "paths": {}
+}

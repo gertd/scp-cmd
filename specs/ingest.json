@@ -296,7 +296,7 @@
     }
   },
   "info": {
-    "description": "With the Splunk Cloud Ingest service, you can send event or metrics data to the Splunk platform.",
+    "description": "Use the Ingest service in Splunk Cloud Services to send event and metrics data, or upload a static file, to Splunk Cloud Services.",
     "title": "Ingest API",
     "version": "v1beta2.2"
   },

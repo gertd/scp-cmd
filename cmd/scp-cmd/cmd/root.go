@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 	"runtime"
 	"time"
 
@@ -12,6 +11,7 @@ import (
 	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/appreg"
 	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/catalog"
 	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/collect"
+	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/commerce"
 	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/config"
 	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/forwarders"
 	"github.com/gertd/scp-cmd/cmd/scp-cmd/cmd/identity"
@@ -30,12 +30,9 @@ var rootCmd = &cobra.Command{
 	Version: versionInfo(),
 }
 
-// Execute -- Adds all child commands to the root command and sets flags appropriately.
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+// Execute -- execute main command handler
+func Execute() error {
+	return rootCmd.Execute()
 }
 
 func init() {
@@ -46,6 +43,7 @@ func init() {
 	rootCmd.AddCommand(appreg.Cmd())
 	rootCmd.AddCommand(catalog.Cmd())
 	rootCmd.AddCommand(collect.Cmd())
+	rootCmd.AddCommand(commerce.Cmd())
 	rootCmd.AddCommand(config.Cmd())
 	rootCmd.AddCommand(forwarders.Cmd())
 	rootCmd.AddCommand(identity.Cmd())

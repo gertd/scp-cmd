@@ -14,7 +14,7 @@ import (
 
 const (
 	envClientID     = "SCP_CLIENT_ID"
-	envClientSecret = "SCP_CLIENT_SECRET"
+	envClientSecret = "SCP_CLIENT_SECRET" //nolint:gosec
 )
 
 func main() {

@@ -74,6 +74,16 @@
         },
         "description": "The resource wasn't found."
       },
+      "Error429": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "Too many requests were sent."
+      },
       "Error500": {
         "content": {
           "application/json": {
@@ -1156,7 +1166,7 @@
     }
   },
   "info": {
-    "title": "Machine Learning Service (ML API)",
+    "title": "Machine Learning service in Splunk Cloud Services",
     "version": "v2beta1.1"
   },
   "openapi": "3.0.0",
@@ -1186,6 +1196,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -1235,6 +1248,9 @@
           "403": {
             "$ref": "#/components/responses/Error403"
           },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           }
@@ -1264,6 +1280,9 @@
           },
           "404": {
             "$ref": "#/components/responses/Error404"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -1296,6 +1315,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -1347,6 +1369,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -1405,6 +1430,9 @@
           "403": {
             "$ref": "#/components/responses/Error403"
           },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           }
@@ -1434,6 +1462,9 @@
           },
           "404": {
             "$ref": "#/components/responses/Error404"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -1466,6 +1497,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -1526,6 +1560,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -1593,6 +1630,9 @@
           "403": {
             "$ref": "#/components/responses/Error403"
           },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           }
@@ -1622,6 +1662,9 @@
           },
           "404": {
             "$ref": "#/components/responses/Error404"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -1654,6 +1697,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -1720,6 +1766,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -1830,6 +1879,9 @@
           "403": {
             "$ref": "#/components/responses/Error403"
           },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           }
@@ -1863,6 +1915,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -1930,6 +1985,9 @@
           "403": {
             "$ref": "#/components/responses/Error403"
           },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           }
@@ -1986,6 +2044,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -2046,6 +2107,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -2113,6 +2177,9 @@
           "403": {
             "$ref": "#/components/responses/Error403"
           },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           }
@@ -2142,6 +2209,9 @@
           },
           "404": {
             "$ref": "#/components/responses/Error404"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -2174,6 +2244,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -2241,6 +2314,9 @@
           "403": {
             "$ref": "#/components/responses/Error403"
           },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           }
@@ -2306,6 +2382,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
           },
           "500": {
             "$ref": "#/components/responses/Error500"
@@ -2407,6 +2486,9 @@
           "403": {
             "$ref": "#/components/responses/Error403"
           },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           }
@@ -2437,6 +2519,9 @@
           "404": {
             "$ref": "#/components/responses/Error404"
           },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           }
@@ -2446,6 +2531,41 @@
           "Workflow"
         ],
         "x-authz-scope": "ml.deployments.delete"
+      },
+      "get": {
+        "operationId": "getWorkflowStreamDeployment",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowStreamDeployment"
+                }
+              }
+            },
+            "description": "Returns the status of a workflow streaming deployment."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error500"
+          }
+        },
+        "summary": "Returns the status of a workflow streaming deployment.",
+        "tags": [
+          "Workflow"
+        ],
+        "x-authz-scope": "ml.deployments.read"
       },
       "parameters": [
         {
@@ -2483,7 +2603,7 @@
   },
   "tags": [
     {
-      "description": "With the Splunk Cloud Machine Learning service, you can create ML workflows, build and persist models of those workflows, and generate insights on new data.",
+      "description": "Use the Machine Learning service in Splunk Cloud Services to deliver resource intensive machine learning workloads. The Machine Learning service covers model experimentation, training, inference, validation, scoring, and serving.",
       "name": "mlTag"
     }
   ]

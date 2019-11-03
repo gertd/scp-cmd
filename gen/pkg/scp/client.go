@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	tokenURL = "https://auth.scp.splunk.com/token"
+	tokenURL = "https://auth.scp.splunk.com/token" //nolint:gosec
 	baseURL  = "https://api.scp.splunk.com"
 )
 

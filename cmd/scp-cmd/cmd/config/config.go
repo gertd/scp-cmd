@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/spf13/cobra"
 	impl "github.com/gertd/scp-cmd/pkg/config"
+	"github.com/spf13/cobra"
 )
 
 // Cmd -- used to connection to rootCmd

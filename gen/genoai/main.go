@@ -10,9 +10,9 @@ import (
 	"path"
 	"strings"
 
+	"github.com/gertd/scp-cmd/gen/pkg/gen"
 	"github.com/getkin/kin-openapi/openapi3"
 	flag "github.com/spf13/pflag"
-	"github.com/gertd/scp-cmd/gen/pkg/gen"
 )
 
 type config struct {

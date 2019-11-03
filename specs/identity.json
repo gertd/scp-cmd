@@ -65,9 +65,16 @@
         "required": false,
         "schema": {
           "items": {
+            "enum": [
+              "tenant",
+              "principal"
+            ],
             "type": "string"
           },
-          "type": "array"
+          "maxItems": 2,
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
         }
       },
       "inviteId": {
@@ -269,6 +276,23 @@
       }
     },
     "schemas": {
+      "AddGroupMemberAsAnAdminBody": {
+        "properties": {
+          "group": {
+            "type": "string"
+          },
+          "member": {
+            "minLength": 2,
+            "type": "string",
+            "x-case-insensitive": true
+          }
+        },
+        "required": [
+          "group",
+          "member"
+        ],
+        "type": "object"
+      },
       "AddGroupMemberBody": {
         "properties": {
           "name": {
@@ -313,6 +337,13 @@
         "minLength": 4,
         "type": "string",
         "x-case-insensitive": true
+      },
+      "AdminServicePrincipal": {
+        "enum": [
+          "iac_audit",
+          "iac_admin_tool"
+        ],
+        "type": "string"
       },
       "App": {
         "description": "Represents an app regsitration",
@@ -370,7 +401,8 @@
         },
         "required": [
           "username",
-          "password"
+          "password",
+          "csrfToken"
         ],
         "type": "object"
       },
@@ -538,6 +570,22 @@
           "app",
           "appPermissions",
           "userPermissions"
+        ],
+        "type": "object"
+      },
+      "CreateSvcPrincipalTokenBody": {
+        "properties": {
+          "reason": {
+            "maxLength": 280,
+            "minLength": 4,
+            "type": "string"
+          },
+          "servicePrincipal": {
+            "$ref": "#/components/schemas/AdminServicePrincipal"
+          }
+        },
+        "required": [
+          "servicePrincipal"
         ],
         "type": "object"
       },
@@ -845,6 +893,7 @@
       "PermissionSetKind": {
         "enum": [
           "principal",
+          "api_key",
           "subscription"
         ],
         "type": "string"
@@ -997,6 +1046,58 @@
         ],
         "type": "object"
       },
+      "ServiceAccount": {
+        "properties": {
+          "defaultpermissions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "name": {
+            "type": "string"
+          },
+          "permissions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "principal": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ServiceAccountPeer": {
+        "properties": {
+          "permissions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "principal": {
+            "type": "string"
+          },
+          "tenant": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ServiceAccountPeers": {
+        "items": {
+          "$ref": "#/components/schemas/ServiceAccountPeer"
+        },
+        "type": "array"
+      },
+      "ServiceAccounts": {
+        "items": {
+          "$ref": "#/components/schemas/ServiceAccount"
+        },
+        "type": "array"
+      },
       "Subscription": {
         "description": "Represents an app subscribed to a tenant",
         "properties": {
@@ -1144,6 +1245,13 @@
           "clientId": {
             "type": "string"
           },
+          "kind": {
+            "enum": [
+              "principal",
+              "api_key"
+            ],
+            "type": "string"
+          },
           "name": {
             "maxLength": 36,
             "minLength": 4,
@@ -1158,7 +1266,8 @@
         },
         "required": [
           "name",
-          "clientId"
+          "clientId",
+          "kind"
         ],
         "type": "object"
       }
@@ -1172,15 +1281,15 @@
     }
   },
   "info": {
-    "description": "With the Splunk Cloud Identity and Access Control (IAC) Service, you can authenticate and authorize Splunk API users.",
-    "title": "Identity and Access Control",
-    "version": "v2beta1.10"
+    "description": "With the Identity service in Splunk Cloud Services, you can authenticate and authorize Splunk Cloud Services users.",
+    "title": "Identity",
+    "version": "v2beta1.15"
   },
   "openapi": "3.0.0",
   "paths": {
     "/system/identity/v2beta1/principals": {
       "get": {
-        "description": "Returns the list of principals known to IAC.",
+        "description": "Returns the list of principals that the Identity service knows about.",
         "operationId": "listPrincipals",
         "responses": {
           "200": {
@@ -1324,7 +1433,8 @@
             "description": "The resource is locked."
           }
         },
-        "x-authz-scope": "identity.groups.write"
+        "x-authz-scope": "identity.groups.write",
+        "x-trigger-name": "splunk.identity.groups"
       }
     },
     "/{tenant}/identity/v2beta1/groups/{group}": {
@@ -1351,7 +1461,8 @@
             "description": "The resource is locked."
           }
         },
-        "x-authz-scope": "identity.groups.write"
+        "x-authz-scope": "identity.groups.write",
+        "x-trigger-name": "splunk.identity.groups"
       },
       "get": {
         "description": "Returns information about a given group within a tenant.",
@@ -1476,7 +1587,8 @@
             "description": "The resource is locked."
           }
         },
-        "x-authz-scope": "identity.groups.write"
+        "x-authz-scope": "identity.groups.write",
+        "x-trigger-name": "splunk.identity.group-members"
       }
     },
     "/{tenant}/identity/v2beta1/groups/{group}/members/{member}": {
@@ -1503,7 +1615,8 @@
             "description": "The resource is locked."
           }
         },
-        "x-authz-scope": "identity.groups.write"
+        "x-authz-scope": "identity.groups.write",
+        "x-trigger-name": "splunk.identity.group-members"
       },
       "get": {
         "description": "Returns information about a given member within a given group.",
@@ -1631,7 +1744,8 @@
             "description": "The resource is locked."
           }
         },
-        "x-authz-scope": "identity.groups.write"
+        "x-authz-scope": "identity.groups.write",
+        "x-trigger-name": "splunk.identity.group-roles"
       }
     },
     "/{tenant}/identity/v2beta1/groups/{group}/roles/{role}": {
@@ -1658,7 +1772,8 @@
             "description": "The resource is locked."
           }
         },
-        "x-authz-scope": "identity.groups.write"
+        "x-authz-scope": "identity.groups.write",
+        "x-trigger-name": "splunk.identity.group-roles"
       },
       "get": {
         "description": "Returns information about a given role within a given group.",
@@ -1780,7 +1895,8 @@
             "description": "The resource is locked."
           }
         },
-        "x-authz-scope": "identity.members.write"
+        "x-authz-scope": "identity.members.write",
+        "x-trigger-name": "splunk.identity.members"
       }
     },
     "/{tenant}/identity/v2beta1/members/{member}": {
@@ -1807,7 +1923,8 @@
             "description": "The resource is locked."
           }
         },
-        "x-authz-scope": "identity.members.write"
+        "x-authz-scope": "identity.members.write",
+        "x-trigger-name": "splunk.identity.members"
       },
       "get": {
         "description": "Returns a member of a given tenant.",
@@ -2055,7 +2172,8 @@
             "description": "The resource is locked."
           }
         },
-        "x-authz-scope": "identity.roles.write"
+        "x-authz-scope": "identity.roles.write",
+        "x-trigger-name": "splunk.identity.roles"
       }
     },
     "/{tenant}/identity/v2beta1/roles/{role}": {
@@ -2082,7 +2200,8 @@
             "description": "The resource is locked."
           }
         },
-        "x-authz-scope": "identity.roles.write"
+        "x-authz-scope": "identity.roles.write",
+        "x-trigger-name": "splunk.identity.roles"
       },
       "get": {
         "description": "Returns a role for a given tenant.",
@@ -2246,7 +2365,8 @@
             "description": "The resource is locked."
           }
         },
-        "x-authz-scope": "identity.roles.write"
+        "x-authz-scope": "identity.roles.write",
+        "x-trigger-name": "splunk.identity.role-permissions"
       }
     },
     "/{tenant}/identity/v2beta1/roles/{role}/permissions/{permission}": {
@@ -2273,7 +2393,8 @@
             "description": "The resource is locked."
           }
         },
-        "x-authz-scope": "identity.roles.write"
+        "x-authz-scope": "identity.roles.write",
+        "x-trigger-name": "splunk.identity.role-permissions"
       },
       "get": {
         "description": "Gets a permission for the specified role.",

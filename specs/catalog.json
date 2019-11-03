@@ -1292,6 +1292,9 @@
             "$ref": "#/components/schemas/IndexDatasetProperties"
           },
           {
+            "$ref": "#/components/schemas/IndexDatasetReadOnlyProperties"
+          },
+          {
             "$ref": "#/components/schemas/MetadataProperties"
           },
           {
@@ -1352,6 +1355,43 @@
           },
           "kind": {
             "$ref": "#/components/schemas/IndexDatasetKind"
+          }
+        },
+        "type": "object"
+      },
+      "IndexDatasetReadOnlyProperties": {
+        "description": "Properties of index datasets which can only be read through the API.",
+        "properties": {
+          "earliestEventTime": {
+            "description": "The timestamp, in seconds, of the earliest event. The timestamp is in UNIX time.",
+            "type": "string"
+          },
+          "earliestIngestTime": {
+            "description": "The earliest index time for any of the events in this index.",
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/IndexDatasetKind"
+          },
+          "latestEventTime": {
+            "description": "The timestamp, in seconds, of the latest event. The timestamp is in UNIX time.",
+            "type": "string"
+          },
+          "latestIngestTime": {
+            "description": "The latest index time for any of the events in this index.",
+            "type": "string"
+          },
+          "latestMetadataUpdateTime": {
+            "description": "The latest time that the index metadata was refreshed.",
+            "type": "string"
+          },
+          "totalEventCount": {
+            "description": "The number of events in the index.",
+            "type": "integer"
+          },
+          "totalSize": {
+            "description": "The raw size, in bytes, of the uncompressed data in the indexers.",
+            "type": "integer"
           }
         },
         "type": "object"
@@ -1492,6 +1532,10 @@
           "parameters": {
             "description": "Parameters for the search job, mainly earliest, latest, timezone, and relativeTimeAnchor.",
             "type": "object"
+          },
+          "parent": {
+            "description": "The parent's ID of the search job.",
+            "type": "string"
           },
           "percentComplete": {
             "description": "An estimate of how complete the search job is.",
@@ -1793,6 +1837,9 @@
             "$ref": "#/components/schemas/MetricDatasetProperties"
           },
           {
+            "$ref": "#/components/schemas/MetricDatasetReadOnlyProperties"
+          },
+          {
             "$ref": "#/components/schemas/MetadataProperties"
           },
           {
@@ -1853,6 +1900,43 @@
           },
           "kind": {
             "$ref": "#/components/schemas/MetricDatasetKind"
+          }
+        },
+        "type": "object"
+      },
+      "MetricDatasetReadOnlyProperties": {
+        "description": "Properties of metric datasets which can only be read through the API.",
+        "properties": {
+          "earliestEventTime": {
+            "description": "The timestamp, in seconds, of the earliest measure. The timestamp is in UNIX time.",
+            "type": "string"
+          },
+          "earliestIngestTime": {
+            "description": "The earliest index time for any of the measures in this index.",
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/MetricDatasetKind"
+          },
+          "latestEventTime": {
+            "description": "The timestamp, in seconds, of the latest measure. The timestamp is in UNIX time.",
+            "type": "string"
+          },
+          "latestIngestTime": {
+            "description": "The earliest index time for any of the measures in this index.",
+            "type": "string"
+          },
+          "latestMetadataUpdateTime": {
+            "description": "The latest time that the metric index metadata was refreshed.",
+            "type": "string"
+          },
+          "totalEventCount": {
+            "description": "THe number of measures in the metric index.",
+            "type": "integer"
+          },
+          "totalSize": {
+            "description": "For metrics indexes, the totalSize is set to 0.",
+            "type": "integer"
           }
         },
         "type": "object"
@@ -3275,6 +3359,88 @@
   },
   "openapi": "3.0.0",
   "paths": {
+    "/{tenant}/catalog/v2beta1/annotations": {
+      "get": {
+        "description": "Return the set of annotations across all objects.",
+        "operationId": "listAnnotations",
+        "parameters": [
+          {
+            "description": "A filter to apply to the results list. The filter must be a SPL predicate expression.",
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "format": "spl-predicate-expression",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The maximum number of results to return.",
+            "in": "query",
+            "name": "count",
+            "required": false,
+            "schema": {
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "The number of results to skip before the first one returned.",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "A list of fields to order the results by.  You can specify either ascending or descending order using \"\u003cfield\u003e asc\" or \"\u003cfield\u003e desc.  Ascending order is the default.",
+            "in": "query",
+            "name": "orderby",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Annotation"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "An array of annotations was returned."
+          },
+          "400": {
+            "description": "The filter you have applied is invalid."
+          },
+          "401": {
+            "description": "The operation is unauthorized."
+          }
+        },
+        "x-authz-scope": [
+          "catalog.annotations.read"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/AuthorizationHeader"
+        },
+        {
+          "$ref": "#/components/parameters/Tenant"
+        }
+      ]
+    },
     "/{tenant}/catalog/v2beta1/dashboards": {
       "get": {
         "description": "Return a list of Dashboards.",
@@ -3339,6 +3505,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested dashboards were not found, or the requesting user lacks catalog.dashboards.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -3429,6 +3598,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "A dashboard with the specified ID was not found, or the requesting user lacks catalog.dashboards.read permission for it."
           }
         },
         "x-authz-scope": [
@@ -3519,6 +3691,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested annotations were not found, or the requesting user lacks catalog.annotations.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -3644,6 +3819,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "A dashboard with the specified ID was not found, or the requesting user lacks catalog.dashboards.read permission for it."
           }
         },
         "x-authz-scope": [
@@ -3727,6 +3905,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested annotations were not found, or the requesting user lacks catalog.annotations.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -3865,6 +4046,16 @@
               },
               "type": "array"
             }
+          },
+          {
+            "description": "The number of seconds beyond which we will refresh index metadata.",
+            "in": "query",
+            "name": "maxstale",
+            "required": false,
+            "schema": {
+              "minimum": 1,
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -3883,6 +4074,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The datasets were not found, or the requesting user lacks catalog.datasets.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -3966,6 +4160,18 @@
       "get": {
         "description": "Return information about the dataset with the specified ID.",
         "operationId": "getDatasetById",
+        "parameters": [
+          {
+            "description": "The number of seconds beyond which we will refresh index metadata.",
+            "in": "query",
+            "name": "maxstale",
+            "required": false,
+            "schema": {
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -3981,7 +4187,7 @@
             "description": "The operation is unauthorized."
           },
           "404": {
-            "description": "A dataset with the specified ID was not found."
+            "description": "A dataset with the specified ID was not found, or the requesting user lacks catalog.datasets.read permission for it."
           }
         },
         "x-authz-scope": [
@@ -4025,7 +4231,7 @@
             "description": "The dataset with the specified ID was updated."
           },
           "404": {
-            "description": "The dataset with the specified ID was not found."
+            "description": "The dataset with the specified ID was not found, or the requesting user lacks catalog.datasets.read permission for it."
           }
         },
         "x-authz-scope": [
@@ -4101,6 +4307,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested annotations were not found, or the requesting user lacks catalog.annotations.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -4257,6 +4466,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "Field does not exist, or it exists and the requesting user lacks catalog.datasets.read permission for it."
           }
         },
         "x-authz-scope": [
@@ -4351,6 +4563,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "A field with the specified ID was not found, or the requesting user lacks catalog.datasets.read permission for it."
           }
         },
         "x-authz-scope": [
@@ -4538,6 +4753,18 @@
       "get": {
         "description": "Return the dataset with the specified resource name. For the default module, the resource name format is datasetName. Otherwise, the resource name format is module.datasetName.",
         "operationId": "getDataset",
+        "parameters": [
+          {
+            "description": "The number of seconds beyond which we will refresh index metadata.",
+            "in": "query",
+            "name": "maxstale",
+            "required": false,
+            "schema": {
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -4553,7 +4780,7 @@
             "description": "The operation is unauthorized."
           },
           "404": {
-            "description": "A dataset with the specified resource name was not found."
+            "description": "A dataset with the specified resource name was not found, or the requesting user lacks catalog.datasets.read permission for it."
           }
         },
         "x-authz-scope": [
@@ -4673,6 +4900,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested annotations were not found, or the requesting user lacks catalog.annotations.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -4832,6 +5062,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested fields were not found, or the requesting user lacks catalog.datasets.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -4926,6 +5159,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "A field with the specified ID was not found, or the requesting user lacks catalog.datasets.read permission for it."
           }
         },
         "x-authz-scope": [
@@ -5151,6 +5387,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested fields were not found, or the requesting user lacks catalog.datasets.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -5185,7 +5424,7 @@
             "description": "The operation is unauthorized."
           },
           "404": {
-            "description": "The field with the specified ID was not found."
+            "description": "The field with the specified ID was not found, or the requesting user lacks catalog.datasets.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -5236,6 +5475,9 @@
           },
           "401": {
             "description": "Unauthorized operation."
+          },
+          "404": {
+            "description": "The requested modules were not found, or the requesting user lacks catalog.datasets.read/catalog.rules.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -5316,6 +5558,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested relationships were not found."
           }
         }
       },
@@ -5508,6 +5753,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested rules were not found, or the requesting user lacks catalog.rules.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -5603,7 +5851,7 @@
             "description": "The operation is unauthorized."
           },
           "404": {
-            "description": "A rule with the specified rule ID was not found."
+            "description": "A rule with the specified rule ID was not found, or the requesting user lacks catalog.rules.read permission for it."
           }
         },
         "x-authz-scope": [
@@ -5723,6 +5971,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested actions were not found, or the requesting user lacks catalog.rules.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -5817,6 +6068,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "A action with the specified ID was not found, or the requesting user lacks catalog.rules.read permission for it."
           }
         },
         "x-authz-scope": [
@@ -5913,7 +6167,7 @@
             "description": "The operation is unauthorized."
           },
           "404": {
-            "description": "A rule with the specified resource name was not found."
+            "description": "A rule with the specified resource name was not found, or the requesting user lacks catalog.rules.read permission for it."
           }
         },
         "x-authz-scope": [
@@ -6033,6 +6287,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested actions were not found, or the requesting user lacks catalog.rules.read permission for them."
           }
         },
         "x-authz-scope": [
@@ -6127,6 +6384,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "A action with the specified ID was not found, or the requesting user lacks catalog.rules.read permission for it."
           }
         },
         "x-authz-scope": [
@@ -6246,6 +6506,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested workflows were not found."
           }
         }
       },
@@ -6326,6 +6589,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "A workflow with the specified ID was not found."
           }
         }
       },
@@ -6431,6 +6697,9 @@
           },
           "401": {
             "description": "Unauthorized operation."
+          },
+          "404": {
+            "description": "The requested workflow builds were not found."
           }
         }
       },
@@ -6514,6 +6783,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "A workflow build with the specified ID was not found."
           }
         }
       },
@@ -6622,6 +6894,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "The requested workflow runs were not found."
           }
         }
       },
@@ -6708,6 +6983,9 @@
           },
           "401": {
             "description": "The operation is unauthorized."
+          },
+          "404": {
+            "description": "A workflow run with the specified ID was not found."
           }
         }
       },

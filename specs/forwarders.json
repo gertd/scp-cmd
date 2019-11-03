@@ -157,7 +157,7 @@
     }
   },
   "info": {
-    "description": "Send data from a heavy forwarder to the Splunk Forwarder Service.",
+    "description": "Send data from a Splunk forwarder to the Splunk Forwarder service in Splunk Cloud Services.",
     "title": "Splunk Forwarder Service",
     "version": "v2beta1.1"
   },

@@ -1,7 +1,7 @@
 package appreg
 
 //go:generate go run ../../../../gen/genoai/main.go --input ./specs/app-registry.json --name app-registry --package appreg --output appreg-cmds.go --tpl ./gen/tpl/gen-cmds.tpl --imports github.com/spf13/cobra
-//go:generate gofmt -w appreg-cmds.go
+//go:generate goimports -w appreg-cmds.go
 
 import (
 	"github.com/spf13/cobra"

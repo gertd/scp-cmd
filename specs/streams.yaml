@@ -680,9 +680,9 @@ components:
                 pipelineReactivationStatus:
                     enum:
                       - activated
-                      - alreadyActivatedWithCurrentVersion
                       - currentVersionInvalid
                       - failedToDeactivateCurrentVersion
+                      - notActivated
                       - rolledBack
                       - rolledBackError
                     type: string
@@ -695,10 +695,6 @@ components:
                         upon creation. The pipeline still needs to be validated before
                         activation. Defaults to false.
                     type: boolean
-                createUserId:
-                    description: The user that created the pipeline. Deprecated.
-                    example: ""
-                    type: string
                 data:
                     $ref: '#/components/schemas/UplPipeline'
                 description:
@@ -930,6 +926,8 @@ components:
                       - STATS
                       - STATS_BY
                       - SELECT
+                      - EXPRESSION
+                      - FUNCTION
                       - LITERAL
                       - UNKNOWN
                     example: ""
@@ -1189,10 +1187,10 @@ components:
                     type: array
             type: object
 info:
-    description: With the Splunk Cloud Data Stream Processing service, you can perform
-        create, read, update, and delete (CRUD) operations on your data pipeline.
-        The Streams API also has metrics and preview session endpoints and gives you
-        full control over your data pipeline
+    description: With the Streams service in Splunk Cloud Services, you can perform
+        create, read, update, and delete (CRUD) operations on your data pipeline.The
+        Streams service in Splunk Cloud Services also has metrics and preview session
+        endpoints and gives you full control over your data pipeline.
     title: Data Stream Processing REST API
     version: v2beta1.2
 openapi: 3.0.1
@@ -2767,7 +2765,7 @@ paths:
             deprecated: false
             operationId: createTemplate
             parameters:
-              - description: ID of the te/nant
+              - description: ID of the tenant
                 in: path
                 name: tenantId
                 required: true

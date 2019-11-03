@@ -1,7 +1,7 @@
 package ingest
 
 //go:generate go run ../../../../gen/genoai/main.go --input ./specs/ingest.json --name ingest --package ingest --output ingest-cmds.go --tpl ./gen/tpl/gen-cmds.tpl --imports github.com/spf13/cobra
-//go:generate gofmt -w ingest-cmds.go
+//go:generate goimports -w ingest-cmds.go
 
 import (
 	"github.com/spf13/cobra"

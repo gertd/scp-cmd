@@ -1,7 +1,7 @@
 package identity
 
 //go:generate go run ../../../../gen/genoai/main.go --input ./specs/identity.json --name identity --package identity --output identity-cmds.go --tpl ./gen/tpl/gen-cmds.tpl --imports github.com/spf13/cobra
-//go:generate gofmt -w identity-cmds.go
+//go:generate goimports -w identity-cmds.go
 
 import (
 	"github.com/spf13/cobra"

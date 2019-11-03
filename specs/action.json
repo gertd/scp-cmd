@@ -210,7 +210,7 @@
             "type": "string"
           },
           "bodyPlainText": {
-            "description": "Optional text to send as the text/plain part of the email. If this field is not set for an email action, the Action service converts the value from the body field to text and sends that as the text/plain part when triggering the action. You can use a template in this field.",
+            "description": "Optional text to send as the text/plain part of the email. If this field is not set for an email action, the Action service converts the value from the body field to text and sends that as the text/plain part when invoking the action. You can use a template in this field.",
             "example": "Hello, this is my test email.",
             "type": "string"
           },
@@ -348,9 +348,6 @@
             "type": "integer"
           }
         },
-        "required": [
-          "kind"
-        ],
         "type": "object"
       },
       "TriggerEventKind": {
@@ -390,7 +387,7 @@
             "type": "object"
           },
           "webhookPayload": {
-            "description": "The (possibly) templated payload body, which is POSTed to the webhookUrl when triggered.\n",
+            "description": "The (possibly) templated payload body, which is POSTed to the webhookUrl when invoked.\n",
             "type": "string"
           },
           "webhookUrl": {
@@ -404,9 +401,9 @@
     }
   },
   "info": {
-    "description": "With the Splunk Cloud Action service, you can receive incoming trigger events and use pre-defined action templates to turn these events into meaningful actions.\n",
+    "description": "With the Action service in Splunk Cloud Services, you can receive incoming trigger events and use pre-defined action templates to turn these events into meaningful actions.\n",
     "title": "Action Service",
-    "version": "v1beta2.9"
+    "version": "v1beta2.11"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -773,7 +770,7 @@
             "description": "An error occurred."
           }
         },
-        "summary": "Triggers an action.",
+        "summary": "Invokes an action.",
         "tags": [
           "Actions"
         ],
@@ -814,7 +811,7 @@
             "description": "An error occurred."
           }
         },
-        "summary": "Returns the status of a triggered action.  Available for 4 days after last status change.",
+        "summary": "Returns the status of an action that was invoked. The status is available for 4 days after the last status change.",
         "tags": [
           "Actions"
         ],
@@ -872,7 +869,7 @@
             "description": "An error occurred."
           }
         },
-        "summary": "Returns the status details of the triggered email action.  Available for 4 days after last status change.",
+        "summary": "Returns the status details of the invoked email action. The status is available for 4 days after the last status change.",
         "tags": [
           "Actions"
         ],
