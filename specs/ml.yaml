@@ -570,6 +570,7 @@ components:
                       - failed
                       - success
                       - scheduled
+                      - initializing
                     readOnly: true
                 workflowBuild:
                     $ref: '#/components/schemas/WorkflowBuild'
@@ -791,6 +792,7 @@ components:
                       - failed
                       - success
                       - scheduled
+                      - initializing
                     readOnly: true
                 workflowBuild:
                     $ref: '#/components/schemas/WorkflowBuild'
@@ -813,7 +815,11 @@ components:
                     type: string
             type: object
 info:
-    title: Machine Learning service in Splunk Cloud Services
+    description: Use the Machine Learning service in Splunk Cloud Services to deliver
+        resource intensive machine learning workloads. The Machine Learning service
+        covers model experimentation, training, inference, validation, scoring, and
+        serving.
+    title: Machine Learning
     version: v2beta1.1
 openapi: 3.0.0
 paths:
@@ -1735,8 +1741,4 @@ paths:
             schema:
                 type: string
 tags:
-  - description: Use the Machine Learning service in Splunk Cloud Services to deliver
-        resource intensive machine learning workloads. The Machine Learning service
-        covers model experimentation, training, inference, validation, scoring, and
-        serving.
-    name: mlTag
+  - name: mlTag

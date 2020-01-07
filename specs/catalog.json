@@ -3353,8 +3353,8 @@
     }
   },
   "info": {
-    "description": "With the Metadata Catalog you can create and manage knowledge objects such as datasets, fields, rules, actions, dashboards, and workflows.",
-    "title": "Metadata Catalog",
+    "description": "With the Metadata Catalog in Splunk Cloud Services you can create and manage knowledge objects such as datasets, fields, rules, actions, dashboards, and workflows.",
+    "title": "Metadata Catalog service",
     "version": "v2beta1.4"
   },
   "openapi": "3.0.0",

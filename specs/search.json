@@ -327,6 +327,11 @@
             ],
             "description": "Represents parameters on the search job such as 'earliest' and 'latest'."
           },
+          "requiredFreshness": {
+            "default": 0,
+            "description": "Specifies a maximum time interval, in seconds, between identical existing searches. The 'requiredFreshness' parameter is used to determine if an existing search with the same query and the same time boundaries can be reused, instead of running the same search again. Freshness is applied to the resolvedEarliest and resolvedLatest parameters. If an existing search has the same exact criteria as this search and the resolvedEarliest and resolvedLatest values are within the freshness interval, the existing search metadata is returned instead of initiating a new search job. By default, the requiredFreshness parameter is set to 0 which means that the platform does not attempt to use an existing search.\n",
+            "type": "number"
+          },
           "resolvedEarliest": {
             "description": "The earliest time speciifed as an absolute value in GMT. The time is computed based on the values you specify for the 'timezone' and 'earliest' queryParameters.\n",
             "readOnly": true,

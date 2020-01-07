@@ -1084,18 +1084,6 @@
         },
         "type": "object"
       },
-      "PreviewNodeData": {
-        "description": "",
-        "properties": {
-          "nodes": {
-            "additionalProperties": {
-              "$ref": "#/components/schemas/PreviewNode"
-            },
-            "type": "object"
-          }
-        },
-        "type": "object"
-      },
       "PreviewSessionStartRequest": {
         "description": "",
         "properties": {
@@ -1165,20 +1153,6 @@
             "type": "integer"
           },
           "recordsPerPipeline": {
-            "format": "int32",
-            "type": "integer"
-          }
-        },
-        "type": "object"
-      },
-      "PreviewStoreResponse": {
-        "description": "",
-        "properties": {
-          "recordsDropped": {
-            "format": "int32",
-            "type": "integer"
-          },
-          "recordsStored": {
             "format": "int32",
             "type": "integer"
           }
@@ -1591,7 +1565,7 @@
   "info": {
     "description": "With the Streams service in Splunk Cloud Services, you can perform create, read, update, and delete (CRUD) operations on your data pipeline.The Streams service in Splunk Cloud Services also has metrics and preview session endpoints and gives you full control over your data pipeline.",
     "title": "Data Stream Processing REST API",
-    "version": "v2beta1.2"
+    "version": "v2beta1.3"
   },
   "openapi": "3.0.1",
   "paths": {

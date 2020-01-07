@@ -1,6 +1,6 @@
 module github.com/gertd/scp-cmd
 
-go 1.12
+go 1.13
 
 require (
 	github.com/getkin/kin-openapi v0.2.0

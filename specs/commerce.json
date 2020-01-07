@@ -54,6 +54,35 @@
         },
         "type": "object"
       },
+      "Card": {
+        "properties": {
+          "Brand": {
+            "description": "Brand",
+            "type": "string"
+          },
+          "DefaultForCurrency": {
+            "description": "DefaultForCurrency",
+            "type": "boolean"
+          },
+          "ExpMonth": {
+            "description": "ExpMonth",
+            "type": "integer"
+          },
+          "ExpYear": {
+            "description": "ExpYear",
+            "type": "integer"
+          },
+          "Last4": {
+            "description": "Last4",
+            "type": "string"
+          },
+          "Name": {
+            "description": "Name",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "Customer": {
         "allOf": [
           {
@@ -462,5 +491,55 @@
     "version": "v1"
   },
   "openapi": "3.0.0",
-  "paths": {}
+  "paths": {
+    "/{tenant}/commerce/v1/customer/cards": {
+      "get": {
+        "description": "get customer cards.",
+        "operationId": "getCustomerCards",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Card"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Cards retrieved successfully."
+          },
+          "401": {
+            "description": "The user isn't authenticated."
+          },
+          "403": {
+            "description": "The operation isn't authorized."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceError"
+                }
+              }
+            },
+            "description": "An error occurred."
+          }
+        },
+        "tags": [
+          "Customer"
+        ],
+        "x-authz-scope": "commerce.customers.read"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/AuthorizationHeader"
+        },
+        {
+          "$ref": "#/components/parameters/Tenant"
+        }
+      ]
+    }
+  }
 }

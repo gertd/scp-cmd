@@ -37,6 +37,13 @@ components:
             required: false
             schema:
                 type: string
+        createdBy:
+            description: The principal name.
+            in: query
+            name: created_by
+            required: false
+            schema:
+                type: string
         group:
             description: The group name.
             in: path
@@ -286,6 +293,10 @@ components:
                 description:
                     description: Authentication description
                     type: string
+                requestId:
+                    description: Request ID
+                    maxLength: 36
+                    type: string
                 sessionToken:
                     description: Session token
                     type: string
@@ -444,6 +455,8 @@ components:
             type: object
         CreateTenantBody:
             properties:
+                createdBy:
+                    type: string
                 name:
                     $ref: '#/components/schemas/TenantName'
             required:
@@ -453,6 +466,10 @@ components:
             properties:
                 csrf:
                     description: CSRF token
+                    type: string
+                requestId:
+                    description: Request ID
+                    maxLength: 36
                     type: string
             type: object
         DecryptTokenBody:
@@ -541,11 +558,11 @@ components:
                     type: string
                 e:
                     type: string
-                "false":
-                    type: string
                 kid:
                     type: string
                 kty:
+                    type: string
+                n:
                     type: string
                 use:
                     type: string
@@ -848,6 +865,26 @@ components:
               - createdAt
               - createdBy
             type: object
+        TenantAsAdmin:
+            properties:
+                createdAt:
+                    format: date-time
+                    type: string
+                createdBy:
+                    type: string
+                name:
+                    $ref: '#/components/schemas/TenantName'
+                proxiedBy:
+                    type: string
+                status:
+                    $ref: '#/components/schemas/TenantStatus'
+            required:
+              - name
+              - status
+              - createdAt
+              - createdBy
+              - proxiedBy
+            type: object
         TenantName:
             maxLength: 36
             minLength: 4
@@ -888,6 +925,22 @@ components:
                     description: Must be Bearer type
                     type: string
             type: object
+        UpdateTenantBody:
+            properties:
+                createdBy:
+                    type: string
+                status:
+                    enum:
+                      - provisioning
+                      - ready
+                      - suspending
+                      - suspended
+                      - resuming
+                      - deleting
+                      - tombstoned
+                      - failed
+                    type: string
+            type: object
         UpdateTenantStateBody:
             properties:
                 state:
@@ -926,7 +979,7 @@ info:
     description: With the Identity service in Splunk Cloud Services, you can authenticate
         and authorize Splunk Cloud Services users.
     title: Identity
-    version: v2beta1.15
+    version: v2beta1.17
 openapi: 3.0.0
 paths:
     /{tenant}/identity/v2beta1/groups:
