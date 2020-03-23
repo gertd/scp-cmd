@@ -1166,7 +1166,11 @@ info:
         (CRUD) operations on your data pipeline. The Streams service also has metrics
         and preview session endpoints and gives you full control over your data pipeline.
     title: Data Stream Processing REST API
+<<<<<<< HEAD
     version: v2beta1.4
+=======
+    version: v2beta1.3
+>>>>>>> cb34c02afc0192c42746c9e9d56b6c168e238714
 openapi: 3.0.1
 paths:
     /{tenantId}/streams/v2beta1/connections:
