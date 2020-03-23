@@ -1,6 +1,6 @@
 language: go
 go:
-- 1.13.5
+- 1.13.9
 cache:
   directories:
   - "$HOME/local"
