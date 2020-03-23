@@ -1,3 +1,5 @@
+SHELL 	   := $(shell which bash)
+
 ## BOF define block
 
 BINARY     := scp-cmd
@@ -60,7 +62,7 @@ $(TESTRUNNER):
 	@go get -u gotest.tools/gotestsum 
 
 .PHONY: test 
-test: $(TESTRUNNER) gen
+test: $(TESTRUNNER)
 	@echo -e "$(ATTN_COLOR)==> test $(NO_COLOR)"
 	@CGO_ENABLED=0 gotestsum --format short-verbose ./...
 

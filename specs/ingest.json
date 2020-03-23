@@ -1,5 +1,18 @@
 {
   "components": {
+    "requestBodies": {
+      "postCollectorPayload": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "description": "The payload uses concatenated JSON format.\nPlease consult https://docs.splunk.com/Documentation/Splunk/latest/Data/FormateventsforHTTPEventCollector#Event_data for details.",
+        "x-go-name": "Payload"
+      }
+    },
     "responses": {
       "badRequestError": {
         "content": {
@@ -41,6 +54,99 @@
         },
         "description": "The operation is unauthorized."
       },
+      "hecBadRequestError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HECResponse"
+            }
+          }
+        },
+        "description": "The request isn't valid.\n\nPossible causes are:\nthere is no data\nthe data format is incorrect e.g. not JSON\nthe specified index is invalid\nthe event field is missing or empty\nthe fields property is invalid"
+      },
+      "hecForbiddenError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HECResponse"
+            }
+          }
+        },
+        "description": "The operation is unauthorized.\n\nPossible causes are the provided token is invalid or disabled."
+      },
+      "hecInternalError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HECResponse"
+            }
+          }
+        },
+        "description": "An internal service error occurred."
+      },
+      "hecSuccessResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HECResponse"
+            }
+          }
+        },
+        "description": "The events were processed successfully."
+      },
+      "hecTokenCreateSuccessResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HECTokenCreateResponse"
+            }
+          }
+        },
+        "description": "The dsphec token was created successfully."
+      },
+      "hecTokenDeleteSuccessResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HECTokenDeleteResponse"
+            }
+          }
+        },
+        "description": "The dsphec token was deleted successfully."
+      },
+      "hecTokenGetSuccessResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HECTokenAccessResponse"
+            }
+          }
+        },
+        "description": "The dsphec token metadata was returned successfully."
+      },
+      "hecTokenListSuccessResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "items": {
+                "$ref": "#/components/schemas/HECTokenAccessResponse"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "description": "The list of dsphec token metadata was returned successfully."
+      },
+      "hecUnauthorizedError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HECResponse"
+            }
+          }
+        },
+        "description": "Authentication is required.\n\nPossible causes are the authentication token is missing or the authorization header isn't well formed."
+      },
       "internalError": {
         "content": {
           "application/json": {
@@ -60,6 +166,26 @@
           }
         },
         "description": "The resource wasn't found."
+      },
+      "resourceConflictError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "The resource has a conflict."
+      },
+      "serverBusyError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HECResponse"
+            }
+          }
+        },
+        "description": "The server cannot process the data sent because the server is overloaded."
       },
       "successResponse": {
         "content": {
@@ -106,52 +232,64 @@
       "Error": {
         "properties": {
           "code": {
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Code"
           },
           "details": {
-            "type": "object"
+            "type": "object",
+            "x-go-name": "Details"
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Message"
           }
         },
-        "type": "object"
+        "type": "object",
+        "x-go-name": "ErrorResponse"
       },
       "Event": {
         "properties": {
           "attributes": {
             "additionalProperties": {},
             "description": "Specifies a JSON object that contains explicit custom fields to be defined at index time.",
-            "type": "object"
+            "type": "object",
+            "x-go-name": "Attributes"
           },
           "body": {
-            "description": "JSON object for the event."
+            "description": "JSON object for the event.",
+            "x-go-name": "Body"
           },
           "host": {
             "description": "The host value assigned to the event data. Typically, this is the hostname of the client from which you are sending data.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Host"
           },
           "id": {
             "description": "An optional ID that uniquely identifies the event data. It is used to deduplicate the data if same data is set multiple times.\nIf ID is not specified, it will be assigned by the system.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "ID"
           },
           "nanos": {
             "description": "Optional nanoseconds part of the timestamp.",
             "format": "int32",
-            "type": "integer"
+            "type": "integer",
+            "x-go-name": "Nanos"
           },
           "source": {
             "description": "The source value to assign to the event data. For example, if you are sending data from an app that you are developing,\nset this key to the name of the app.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Source"
           },
           "sourcetype": {
             "description": "The sourcetype value assigned to the event data.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Sourcetype"
           },
           "timestamp": {
             "description": "Epoch time in milliseconds.",
             "format": "int64",
-            "type": "integer"
+            "type": "integer",
+            "x-go-name": "Timestamp"
           }
         },
         "required": [
@@ -162,21 +300,243 @@
       "FileUploadDetails": {
         "properties": {
           "filename": {
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Filename"
           }
         },
+        "type": "object"
+      },
+      "HECResponse": {
+        "properties": {
+          "code": {
+            "description": "code defines the status of the response. For a complete list of the possible values, please consult https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/TroubleshootHTTPEventCollector#Possible_error_codes",
+            "format": "int64",
+            "type": "integer",
+            "x-go-name": "Code"
+          },
+          "invalid-event-number": {
+            "description": "invalid-event-number defines the index of the first event in error.",
+            "format": "int64",
+            "type": "integer",
+            "x-go-name": "EventErrorIndex"
+          },
+          "text": {
+            "description": "text describes the response status",
+            "type": "string",
+            "x-go-name": "Message"
+          }
+        },
+        "title": "HECResponse defines the http response from the Http Event Collector service.",
+        "type": "object"
+      },
+      "HECTokenAccessResponse": {
+        "description": "GET  /collector/tokens/{tokenName}\nPUT  /collector/tokens/{tokenName}",
+        "properties": {
+          "created_at": {
+            "description": "created_at is a timestamp that captures when this token was created\n\ntype: string\nformat: date-time",
+            "format": "date-time",
+            "type": "string",
+            "x-go-name": "CreatedAt"
+          },
+          "created_by": {
+            "description": "created_by is the principal that created the token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "CreatedBy"
+          },
+          "description": {
+            "description": "description is an optional description of the token.\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Description"
+          },
+          "index": {
+            "description": "index is the default value of the index field for records collected using this token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Index"
+          },
+          "last_modified_at": {
+            "description": "last_modified_at is a timestamp that captures when this token was last modified\n\ntype: string\nformat: date-time",
+            "format": "date-time",
+            "type": "string",
+            "x-go-name": "LastModifiedAt"
+          },
+          "last_modified_by": {
+            "description": "last_modified_by is the principal that last modified the token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "LastModifiedBy"
+          },
+          "name": {
+            "description": "name is the name of the token (unique within the tenant that it belongs to).\n\ntype: string",
+            "pattern": "'[a-z][a-z0-9]{3,35}'",
+            "type": "string",
+            "x-go-name": "Name"
+          },
+          "source": {
+            "description": "source is the default value of the source field for records collected using this token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Source"
+          },
+          "sourcetype": {
+            "description": "sourcetype is the default value of the sourcetype field for records collected using this token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Sourcetype"
+          },
+          "tenant": {
+            "description": "tenant is the tenant that this token belongs to\n\ntype: string",
+            "pattern": "'[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*\"'",
+            "type": "string",
+            "x-go-name": "Tenant"
+          }
+        },
+        "title": "HECTokenAccessResponse defines the response body returned from the HTTP Event Collector token access endpoints:",
+        "type": "object"
+      },
+      "HECTokenCreateRequest": {
+        "description": "POST  /collector/tokens",
+        "properties": {
+          "description": {
+            "description": "description is an optional description of the token.\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Description"
+          },
+          "index": {
+            "description": "index is the default value of the index field for records collected using this token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Index"
+          },
+          "name": {
+            "description": "name is the name of the token (unique within the tenant that it belongs to).\n\ntype: string",
+            "pattern": "'[a-z][a-z0-9]{3,35}'",
+            "type": "string",
+            "x-go-name": "Name"
+          },
+          "source": {
+            "description": "source is the default value of the source field for records collected using this token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Source"
+          },
+          "sourcetype": {
+            "description": "sourcetype is the default value of the sourcetype field for records collected using this token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Sourcetype"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "HECTokenCreateRequest defines the request body accepted by the HTTP Event Collector token create endpoint:",
+        "type": "object"
+      },
+      "HECTokenCreateResponse": {
+        "description": "POST /collector/tokens",
+        "properties": {
+          "created_at": {
+            "description": "created_at is a timestamp that captures when this token was created\n\ntype: string\nformat: date-time",
+            "format": "date-time",
+            "type": "string",
+            "x-go-name": "CreatedAt"
+          },
+          "created_by": {
+            "description": "created_by is the principal that created the token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "CreatedBy"
+          },
+          "description": {
+            "description": "description is an optional description of the token.\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Description"
+          },
+          "index": {
+            "description": "index is the default value of the index field for records collected using this token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Index"
+          },
+          "last_modified_at": {
+            "description": "last_modified_at is a timestamp that captures when this token was last modified\n\ntype: string\nformat: date-time",
+            "format": "date-time",
+            "type": "string",
+            "x-go-name": "LastModifiedAt"
+          },
+          "last_modified_by": {
+            "description": "last_modified_by is the principal that last modified the token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "LastModifiedBy"
+          },
+          "name": {
+            "description": "name is the name of the token (unique within the tenant that it belongs to).\n\ntype: string",
+            "pattern": "'[a-z][a-z0-9]{3,35}'",
+            "type": "string",
+            "x-go-name": "Name"
+          },
+          "source": {
+            "description": "source is the default value of the source field for records collected using this token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Source"
+          },
+          "sourcetype": {
+            "description": "sourcetype is the default value of the sourcetype field for records collected using this token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Sourcetype"
+          },
+          "tenant": {
+            "description": "tenant is the tenant that this token belongs to\n\ntype: string",
+            "pattern": "'[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*\"'",
+            "type": "string",
+            "x-go-name": "Tenant"
+          },
+          "token": {
+            "description": "token is the token value\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Token"
+          }
+        },
+        "title": "HECTokenCreateResponse defines the response body returned from the HTTP Event Collector token create endpoint:",
+        "type": "object"
+      },
+      "HECTokenDeleteResponse": {
+        "description": "DELETE /collector/tokens/{tokenName}",
+        "title": "HECTokenDeleteResponse defines the response body returned from the HTTP Event Collector token delete endpoint:",
+        "type": "object"
+      },
+      "HECTokenUpdateRequest": {
+        "description": "PUT  /collector/tokens/{tokenName}",
+        "properties": {
+          "description": {
+            "description": "description is an optional description of the token.\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Description"
+          },
+          "index": {
+            "description": "index is the default value of the index field for records collected using this token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Index"
+          },
+          "source": {
+            "description": "source is the default value of the source field for records collected using this token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Source"
+          },
+          "sourcetype": {
+            "description": "sourcetype is the default value of the sourcetype field for records collected using this token\n\ntype: string",
+            "type": "string",
+            "x-go-name": "Sourcetype"
+          }
+        },
+        "title": "HECTokenUpdateRequest defines the request body accepted by the HTTP Event Collector token update endpoint:",
         "type": "object"
       },
       "HTTPResponse": {
         "properties": {
           "code": {
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Code"
           },
           "details": {
-            "type": "object"
+            "type": "object",
+            "x-go-name": "Details"
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Message"
           }
         },
         "type": "object"
@@ -188,24 +548,29 @@
               "type": "string"
             },
             "description": "Dimensions allow metrics to be classified e.g. {\"Server\":\"nginx\", \"Region\":\"us-west-1\", ...}",
-            "type": "object"
+            "type": "object",
+            "x-go-name": "Dimensions"
           },
           "name": {
             "description": "Name of the metric e.g. CPU, Memory etc.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Name"
           },
           "type": {
             "description": "Type of metric. Default is g for gauge.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Type"
           },
           "unit": {
             "description": "Unit of the metric e.g. percent, megabytes, seconds etc.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Unit"
           },
           "value": {
             "description": "Value of the metric. If not specified, it will be defaulted to 0.",
             "format": "double",
-            "type": "number"
+            "type": "number",
+            "x-go-name": "Value"
           }
         },
         "required": [
@@ -221,15 +586,18 @@
               "type": "string"
             },
             "description": "Optional. If set, individual metrics inherit these dimensions and can override any and/or all of them.",
-            "type": "object"
+            "type": "object",
+            "x-go-name": "DefaultDimensions"
           },
           "defaultType": {
             "description": "Optional. If set, individual metrics inherit this type and can optionally override.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "DefaultType"
           },
           "defaultUnit": {
             "description": "Optional. If set, individual metrics inherit this unit and can optionally override.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "DefaultUnit"
           }
         },
         "title": "Default attributes for the metric.",
@@ -245,33 +613,40 @@
             "items": {
               "$ref": "#/components/schemas/Metric"
             },
-            "type": "array"
+            "type": "array",
+            "x-go-name": "Body"
           },
           "host": {
             "description": "The host value assigned to the event data. Typically, this is the hostname of the client from which you are sending data.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Host"
           },
           "id": {
             "description": "An optional ID that uniquely identifies the metric data. It is used to deduplicate the data if same data is set multiple times.\nIf ID is not specified, it will be assigned by the system.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "ID"
           },
           "nanos": {
             "description": "Optional nanoseconds part of the timestamp.",
             "format": "int32",
-            "type": "integer"
+            "type": "integer",
+            "x-go-name": "Nanos"
           },
           "source": {
             "description": "The source value to assign to the event data. For example, if you are sending data from an app that you are developing,\nset this key to the name of the app.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Source"
           },
           "sourcetype": {
             "description": "The sourcetype value assigned to the event data.",
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Sourcetype"
           },
           "timestamp": {
             "description": "Epoch time in milliseconds.",
             "format": "int64",
-            "type": "integer"
+            "type": "integer",
+            "x-go-name": "Timestamp"
           }
         },
         "required": [
@@ -282,13 +657,15 @@
       "UploadSuccessResponse": {
         "properties": {
           "code": {
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Code"
           },
           "details": {
             "$ref": "#/components/schemas/FileUploadDetails"
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "x-go-name": "Message"
           }
         },
         "type": "object"
@@ -298,7 +675,7 @@
   "info": {
     "description": "Use the Ingest service in Splunk Cloud Services to send event and metrics data, or upload a static file, to Splunk Cloud Services.",
     "title": "Ingest API",
-    "version": "v1beta2.2"
+    "version": "v1beta2.9"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -312,7 +689,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "x-go-name": "Tenant"
           }
         ],
         "requestBody": {
@@ -374,7 +752,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "x-go-name": "Tenant"
           }
         ],
         "requestBody": {
@@ -384,7 +763,8 @@
                 "properties": {
                   "upfile": {
                     "format": "binary",
-                    "type": "string"
+                    "type": "string",
+                    "x-go-name": "Upfile"
                   }
                 },
                 "type": "object"
@@ -435,7 +815,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "x-go-name": "Tenant"
           }
         ],
         "requestBody": {

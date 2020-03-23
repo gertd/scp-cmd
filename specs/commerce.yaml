@@ -39,6 +39,27 @@ components:
                 state:
                     type: string
             type: object
+        Card:
+            properties:
+                Brand:
+                    description: Brand
+                    type: string
+                DefaultForCurrency:
+                    description: DefaultForCurrency
+                    type: boolean
+                ExpMonth:
+                    description: ExpMonth
+                    type: integer
+                ExpYear:
+                    description: ExpYear
+                    type: integer
+                Last4:
+                    description: Last4
+                    type: string
+                Name:
+                    description: Name
+                    type: string
+            type: object
         Customer:
             allOf:
               - $ref: '#/components/schemas/CustomerImmutable'
@@ -48,7 +69,7 @@ components:
                 createdAt:
                     description: unix timestamp when the customer is created
                     readOnly: true
-                    type: integer
+                    type: string
                 createdBy:
                     description: The user who created this customer
                     readOnly: true
@@ -65,7 +86,7 @@ components:
                 updatedAt:
                     description: unix timestamp when the customer is updated
                     readOnly: true
-                    type: integer
+                    type: string
             type: object
         CustomerMutable:
             properties:
@@ -92,10 +113,18 @@ components:
                         stripe
                     type: string
                     writeOnly: true
-                tenant:
-                    $ref: '#/components/schemas/Tenant'
             required:
               - email
+            type: object
+        FulfillmentStatus:
+            properties:
+                status:
+                    enum:
+                      - active
+                      - provisioning
+                      - failed
+                      - deleting
+                    type: string
             type: object
         InternalSubscriptionMutable:
             properties:
@@ -124,7 +153,7 @@ components:
                 createdAt:
                     description: unix timestamp when the invitation record is created
                     readOnly: true
-                    type: integer
+                    type: string
                 email:
                     description: email for validation and book keeping purposes
                     type: string
@@ -139,7 +168,7 @@ components:
                 updatedAt:
                     description: unix timestamp when the invitation record is updated
                     readOnly: true
-                    type: integer
+                    type: string
             type: object
         Plan:
             properties:
@@ -168,7 +197,7 @@ components:
                 createdAt:
                     description: unix timestamp when the plan is created
                     readOnly: true
-                    type: integer
+                    type: string
                 currency:
                     description: iso code for the currency https://www.iso.org/iso-4217-currency-codes.html
                     readOnly: true
@@ -242,7 +271,7 @@ components:
                 createdAt:
                     description: unix timestamp when the subscription is created
                     readOnly: true
-                    type: integer
+                    type: string
                 createdBy:
                     description: The user who created this subscription.
                     readOnly: true
@@ -255,6 +284,13 @@ components:
                     description: unix timestamp for current period start time
                     readOnly: true
                     type: integer
+                fulfillmentJobID:
+                    description: The ID of the job representing the latest fulfillment
+                        job.
+                    readOnly: true
+                    type: string
+                fulfillmentStatus:
+                    $ref: '#/components/schemas/FulfillmentStatus'
                 id:
                     description: subscription id
                     readOnly: true
@@ -266,14 +302,14 @@ components:
                 updatedAt:
                     description: unix timestamp when the subscription is updated
                     readOnly: true
-                    type: integer
+                    type: string
             type: object
         SubscriptionItem:
             properties:
                 createdAt:
                     description: unix timestamp when the subscription item is created
                     readOnly: true
-                    type: integer
+                    type: string
                 plan:
                     $ref: '#/components/schemas/Plan'
                 planId:
@@ -342,4 +378,33 @@ info:
     title: Commerce Service
     version: v1
 openapi: 3.0.0
-paths: {}
+paths:
+    /{tenant}/commerce/v1/customer/cards:
+        get:
+            description: get customer cards.
+            operationId: getCustomerCards
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: '#/components/schemas/Card'
+                                type: array
+                    description: Cards retrieved successfully.
+                "401":
+                    description: The user isn't authenticated.
+                "403":
+                    description: The operation isn't authorized.
+                default:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ServiceError'
+                    description: An error occurred.
+            tags:
+              - Customer
+            x-authz-scope: commerce.customers.read
+        parameters:
+          - $ref: '#/components/parameters/AuthorizationHeader'
+          - $ref: '#/components/parameters/Tenant'

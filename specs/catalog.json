@@ -783,9 +783,6 @@
             "$ref": "#/components/schemas/ImportDatasetPATCH"
           },
           {
-            "$ref": "#/components/schemas/JobDatasetPATCH"
-          },
-          {
             "$ref": "#/components/schemas/MetricDatasetPATCH"
           },
           {
@@ -823,7 +820,6 @@
           "mapping": {
             "import": "#/components/schemas/ImportDatasetPOST",
             "index": "#/components/schemas/IndexDatasetPOST",
-            "job": "#/components/schemas/JobDatasetPOST",
             "kvcollection": "#/components/schemas/KVCollectionDatasetPOST",
             "lookup": "#/components/schemas/LookupDatasetPOST",
             "metric": "#/components/schemas/MetricDatasetPOST",
@@ -843,9 +839,6 @@
           },
           {
             "$ref": "#/components/schemas/ImportDatasetPOST"
-          },
-          {
-            "$ref": "#/components/schemas/JobDatasetPOST"
           },
           {
             "$ref": "#/components/schemas/MetricDatasetPOST"
@@ -3353,15 +3346,15 @@
     }
   },
   "info": {
-    "description": "With the Metadata Catalog you can create and manage knowledge objects such as datasets, fields, rules, actions, dashboards, and workflows.",
-    "title": "Metadata Catalog",
+    "description": "With the Metadata Catalog in Splunk Cloud Services you can create and manage knowledge objects such as datasets, fields, rules, actions, dashboards, and workflows.",
+    "title": "Metadata Catalog service",
     "version": "v2beta1.4"
   },
   "openapi": "3.0.0",
   "paths": {
     "/{tenant}/catalog/v2beta1/annotations": {
       "get": {
-        "description": "Return the set of annotations across all objects.",
+        "description": "Returns the set of annotations across all objects.",
         "operationId": "listAnnotations",
         "parameters": [
           {
@@ -3443,7 +3436,7 @@
     },
     "/{tenant}/catalog/v2beta1/dashboards": {
       "get": {
-        "description": "Return a list of Dashboards.",
+        "description": "Returns a list of dashboards.",
         "operationId": "listDashboards",
         "parameters": [
           {
@@ -3523,7 +3516,7 @@
         }
       ],
       "post": {
-        "description": "Create a new dashboard.",
+        "description": "Creates a new dashboard.",
         "operationId": "createDashboard",
         "requestBody": {
           "content": {
@@ -3564,7 +3557,7 @@
     },
     "/{tenant}/catalog/v2beta1/dashboards/{dashboardid}": {
       "delete": {
-        "description": "Delete the dashboard with the specified ID.",
+        "description": "Deletes the dashboard with the specified ID.",
         "operationId": "deleteDashboardById",
         "responses": {
           "204": {
@@ -3583,7 +3576,7 @@
         ]
       },
       "get": {
-        "description": "Return information about a dashboard with the specified ID.",
+        "description": "Returns information about the dashboard with the specified ID.",
         "operationId": "getDashboardById",
         "responses": {
           "200": {
@@ -3619,7 +3612,7 @@
         }
       ],
       "patch": {
-        "description": "Update the dashboard with the specified ID.",
+        "description": "Modifies the dashboard with the specified ID.",
         "operationId": "updateDashboardById",
         "requestBody": {
           "content": {
@@ -3658,7 +3651,7 @@
     },
     "/{tenant}/catalog/v2beta1/dashboards/{dashboardid}/annotations": {
       "get": {
-        "description": "Return the set of annotations that are part of a dashboard.",
+        "description": "Returns the set of annotations that are associated with the specified dashboard.",
         "operationId": "listAnnotationsForDashboardById",
         "parameters": [
           {
@@ -3712,7 +3705,7 @@
         }
       ],
       "post": {
-        "description": "Create a new annotation for a specific dashboard.",
+        "description": "Creates a new annotation for the specified dashboard.",
         "operationId": "createAnnotationForDashboardbyId",
         "requestBody": {
           "content": {
@@ -3750,7 +3743,7 @@
     },
     "/{tenant}/catalog/v2beta1/dashboards/{dashboardid}/annotations/{annotationid}": {
       "delete": {
-        "description": "Delete a specific annotation of a dashboard.",
+        "description": "Deletes the annotation with the speciifed ID that is associted with the specified dashboard.",
         "operationId": "deleteAnnotationOfDashboardById",
         "responses": {
           "204": {
@@ -3785,7 +3778,7 @@
     },
     "/{tenant}/catalog/v2beta1/dashboards/{dashboardresourcename}": {
       "delete": {
-        "description": "Delete the dashboard with the specified resource name.",
+        "description": "Deletes the dashboard with the specified resource name.",
         "operationId": "deleteDashboardByResourceName",
         "responses": {
           "204": {
@@ -3804,7 +3797,7 @@
         ]
       },
       "get": {
-        "description": "Return information about a dashboard with the specified resource name.",
+        "description": "Returns information about the dashboard with the specified resource name.",
         "operationId": "getDashboardByResourceName",
         "responses": {
           "200": {
@@ -3840,7 +3833,7 @@
         }
       ],
       "patch": {
-        "description": "Update the dashboard with the specified resource name.",
+        "description": "Modifies the dashboard with the specified resource name.",
         "operationId": "updateDashboardByResourceName",
         "requestBody": {
           "content": {
@@ -3872,7 +3865,7 @@
     },
     "/{tenant}/catalog/v2beta1/dashboards/{dashboardresourcename}/annotations": {
       "get": {
-        "description": "Return the set of annotations that are part of a dashboard.",
+        "description": "Returns the set of annotations that are associated with the specified dashboard resource name.",
         "operationId": "listAnnotationsForDashboardByResourceName",
         "parameters": [
           {
@@ -3926,7 +3919,7 @@
         }
       ],
       "post": {
-        "description": "Create a new annotation for a specific dataset.",
+        "description": "Creates a new annotation for the specified dataset resource name.",
         "operationId": "createAnnotationForDashboardsByResourceName",
         "requestBody": {
           "content": {
@@ -3967,7 +3960,7 @@
     },
     "/{tenant}/catalog/v2beta1/dashboards/{dashboardresourcename}/annotations/{annotationid}": {
       "delete": {
-        "description": "Delete a specific annotation of a dashboard.",
+        "description": "Deletes the annotation with the specified ID that is associated with the specified dashboard resource name.",
         "operationId": "deleteAnnotationOfDashboardByResourceName",
         "responses": {
           "204": {
@@ -4002,11 +3995,11 @@
     },
     "/{tenant}/catalog/v2beta1/datasets": {
       "get": {
-        "description": "Returns a list of all datasets, unless you specify a filter. Use a filter to return a specific list of datasets.",
+        "description": "Returns a list of all datasets. Use a filter to return a specific list of datasets.",
         "operationId": "listDatasets",
         "parameters": [
           {
-            "description": "A filter to apply to the results list. The filter must be a SPL predicate expression.",
+            "description": "A filter to apply to the dataset list. The filter must be a SPL predicate expression.",
             "in": "query",
             "name": "filter",
             "required": false,
@@ -4026,7 +4019,7 @@
             }
           },
           {
-            "description": "The number of results to skip before the first one returned.",
+            "description": "The number of results to skip before the first result is returned.",
             "in": "query",
             "name": "offset",
             "required": false,
@@ -4036,7 +4029,7 @@
             }
           },
           {
-            "description": "A list of fields to order the results by.  You can specify either ascending or descending order using \"\u003cfield\u003e asc\" or \"\u003cfield\u003e desc.  Ascending order is the default.",
+            "description": "A list of fields to order the results by.  You can specify either ascending or descending order using \"\u003cfield\u003e asc\" or \"\u003cfield\u003e desc\".  Ascending order is the default.",
             "in": "query",
             "name": "orderby",
             "required": false,
@@ -4076,7 +4069,7 @@
             "description": "The operation is unauthorized."
           },
           "404": {
-            "description": "The datasets were not found, or the requesting user lacks catalog.datasets.read permission for them."
+            "description": "The requested datasets were not found, or you lack catalog.datasets.read permission for the datasets."
           }
         },
         "x-authz-scope": [
@@ -4092,7 +4085,7 @@
         }
       ],
       "post": {
-        "description": "Create a new dataset.",
+        "description": "Creates a new dataset.",
         "operationId": "createDataset",
         "requestBody": {
           "content": {
@@ -4136,7 +4129,7 @@
     },
     "/{tenant}/catalog/v2beta1/datasets/{datasetid}": {
       "delete": {
-        "description": "Delete a specific dataset. Deleting a dataset also deletes its dependent objects, such as fields.",
+        "description": "Deletes the dataset with the specified ID. Deleting a dataset also deletes its dependent objects, such as fields.",
         "operationId": "deleteDatasetById",
         "responses": {
           "204": {
@@ -4158,7 +4151,7 @@
         ]
       },
       "get": {
-        "description": "Return information about the dataset with the specified ID.",
+        "description": "Returns information about the dataset with the specified ID.",
         "operationId": "getDatasetById",
         "parameters": [
           {
@@ -4206,7 +4199,7 @@
         }
       ],
       "patch": {
-        "description": "Update a specific dataset.",
+        "description": "Modifies the dataset with the specified ID.",
         "operationId": "updateDatasetById",
         "requestBody": {
           "content": {
@@ -4242,7 +4235,7 @@
     },
     "/{tenant}/catalog/v2beta1/datasets/{datasetid}/annotations": {
       "get": {
-        "description": "Return the set of annotations that are part of a dataset.",
+        "description": "Returns the set of annotations that are associated with the specified dataset.",
         "operationId": "listAnnotationsForDatasetById",
         "parameters": [
           {
@@ -4328,7 +4321,7 @@
         }
       ],
       "post": {
-        "description": "Create a new annotation for a specific dataset.",
+        "description": "Creates a new annotation for the specified dataset.",
         "operationId": "createAnnotationForDatasetById",
         "requestBody": {
           "content": {
@@ -4366,7 +4359,7 @@
     },
     "/{tenant}/catalog/v2beta1/datasets/{datasetid}/annotations/{annotationid}": {
       "delete": {
-        "description": "Delete a specific annotation of a dataset.",
+        "description": "Deletes the annotation with the specified ID that is associated with the specified dataset.",
         "operationId": "deleteAnnotationOfDatasetById",
         "responses": {
           "204": {
@@ -4401,7 +4394,7 @@
     },
     "/{tenant}/catalog/v2beta1/datasets/{datasetid}/fields": {
       "get": {
-        "description": "Return the set of fields for the specified dataset.",
+        "description": "Returns the set of fields for the the dataset with the specified ID.",
         "operationId": "listFieldsForDatasetById",
         "parameters": [
           {
@@ -4435,7 +4428,7 @@
             }
           },
           {
-            "description": "A list of fields to order the results by.  You can specify either ascending or descending order using \"\u003cfield\u003e asc\" or \"\u003cfield\u003e desc.  Ascending order is the default.",
+            "description": "A list of fields to order the results by. You can specify either ascending or descending order using \"\u003cfield\u003e asc\" or \"\u003cfield\u003e desc.  Ascending order is the default.",
             "in": "query",
             "name": "orderby",
             "required": false,
@@ -4487,7 +4480,7 @@
         }
       ],
       "post": {
-        "description": "Add a new field to a dataset.",
+        "description": "Adds a new field to the dataset with the specified ID.",
         "operationId": "createFieldForDatasetById",
         "requestBody": {
           "content": {
@@ -4529,7 +4522,7 @@
     },
     "/{tenant}/catalog/v2beta1/datasets/{datasetid}/fields/{fieldid}": {
       "delete": {
-        "description": "Delete a field that is part of a specific dataset.",
+        "description": "Deletes the field with the specified ID that is part of the specified dataset.",
         "operationId": "deleteFieldByIdForDatasetById",
         "responses": {
           "204": {
@@ -4548,7 +4541,7 @@
         ]
       },
       "get": {
-        "description": "Return a field that is part of a specific dataset.",
+        "description": "Returns the field with the specified ID that is part of the specified dataset.",
         "operationId": "getFieldByIdForDatasetById",
         "responses": {
           "200": {
@@ -4587,7 +4580,7 @@
         }
       ],
       "patch": {
-        "description": "Update a field for a specific dataset.",
+        "description": "Modifies the field with the specified ID that is part of the specified dataset.",
         "operationId": "updateFieldByIdForDatasetById",
         "requestBody": {
           "content": {
@@ -4634,7 +4627,7 @@
         }
       ],
       "post": {
-        "description": "Create a new dataset import.",
+        "description": "Creates a new dataset import using the ID of the imported dataset.",
         "operationId": "createDatasetImportById",
         "requestBody": {
           "content": {
@@ -4687,7 +4680,7 @@
         }
       ],
       "post": {
-        "description": "Create a new dataset import.",
+        "description": "Creates a new dataset import using the ID of the imported dataset.",
         "operationId": "createDatasetImportByIdv1",
         "requestBody": {
           "content": {
@@ -4729,7 +4722,7 @@
     },
     "/{tenant}/catalog/v2beta1/datasets/{datasetresourcename}": {
       "delete": {
-        "description": "Delete the dataset with the specified resource name, along with its dependencies. For the default module, the resource name format is datasetName. Otherwise, the resource name format is module.datasetName.",
+        "description": "Deletes the dataset with the specified resource name, along with its dependencies. For the default module, the resource name format is datasetName. Otherwise, the resource name format is module.datasetName.",
         "operationId": "deleteDataset",
         "responses": {
           "204": {
@@ -4751,7 +4744,7 @@
         ]
       },
       "get": {
-        "description": "Return the dataset with the specified resource name. For the default module, the resource name format is datasetName. Otherwise, the resource name format is module.datasetName.",
+        "description": "Returns the dataset with the specified resource name. For the default module, the resource name format is datasetName. Otherwise, the resource name format is module.datasetName.",
         "operationId": "getDataset",
         "parameters": [
           {
@@ -4799,7 +4792,7 @@
         }
       ],
       "patch": {
-        "description": "Update the dataset with the specified resource name. For the default module, the resource name format is datasetName. Otherwise, the resource name format is module.datasetName.",
+        "description": "Modifies the dataset with the specified resource name. For the default module, the resource name format is datasetName. Otherwise, the resource name format is module.datasetName.",
         "operationId": "updateDataset",
         "requestBody": {
           "content": {
@@ -4835,7 +4828,7 @@
     },
     "/{tenant}/catalog/v2beta1/datasets/{datasetresourcename}/annotations": {
       "get": {
-        "description": "Return the set of annotations that are part of a dataset.",
+        "description": "Returns the set of annotations that are associated with the specified dataset resource name.",
         "operationId": "listAnnotationsForDatasetByResourceName",
         "parameters": [
           {
@@ -4921,7 +4914,7 @@
         }
       ],
       "post": {
-        "description": "Create a new annotation for a specific dataset.",
+        "description": "Creates a new annotation for the specified dataset.",
         "operationId": "createAnnotationForDatasetByResourceName",
         "requestBody": {
           "content": {
@@ -4962,7 +4955,7 @@
     },
     "/{tenant}/catalog/v2beta1/datasets/{datasetresourcename}/annotations/{annotationid}": {
       "delete": {
-        "description": "Delete a specific annotation of a dataset.",
+        "description": "Deletes the annotation with the specified iD that is associated with the specified dataset resource name.",
         "operationId": "deleteAnnotationOfDatasetByResourceName",
         "responses": {
           "204": {
@@ -4997,7 +4990,7 @@
     },
     "/{tenant}/catalog/v2beta1/datasets/{datasetresourcename}/fields": {
       "get": {
-        "description": "Return the list of fields that are part of a specified dataset.",
+        "description": "Returns the list of fields in the specified dataset.",
         "operationId": "listFieldsForDataset",
         "parameters": [
           {
@@ -5031,7 +5024,7 @@
             }
           },
           {
-            "description": "A list of fields to order the results by.  You can specify either ascending or descending order using \"\u003cfield\u003e asc\" or \"\u003cfield\u003e desc.  Ascending order is the default.",
+            "description": "A list of fields to order the results by. You can specify either ascending or descending order using \"\u003cfield\u003e asc\" or \"\u003cfield\u003e desc.  Ascending order is the default.",
             "in": "query",
             "name": "orderby",
             "required": false,
@@ -5083,7 +5076,7 @@
         }
       ],
       "post": {
-        "description": "Create a new field on a specific dataset.",
+        "description": "Creates a new field in the dataset with the specified resource name.",
         "operationId": "createFieldForDataset",
         "requestBody": {
           "content": {
@@ -5125,7 +5118,7 @@
     },
     "/{tenant}/catalog/v2beta1/datasets/{datasetresourcename}/fields/{fieldid}": {
       "delete": {
-        "description": "Delete a field that is part of a specific dataset.",
+        "description": "Deletes the field with the specified ID that is part of the specified dataset.",
         "operationId": "deleteFieldByIdForDataset",
         "responses": {
           "204": {
@@ -5144,7 +5137,7 @@
         ]
       },
       "get": {
-        "description": "Return a field that is part of a specific dataset.",
+        "description": "Returns the field with the specified ID that is part of the specified dataset.",
         "operationId": "getFieldByIdForDataset",
         "responses": {
           "200": {
@@ -5183,7 +5176,7 @@
         }
       ],
       "patch": {
-        "description": "Update a field with a specified ID for a specified dataset.",
+        "description": "Modifies the field with the specified ID that is part of the specified dataset.",
         "operationId": "updateFieldByIdForDataset",
         "requestBody": {
           "content": {
@@ -5230,7 +5223,7 @@
         }
       ],
       "post": {
-        "description": "Create a new dataset import.",
+        "description": "Creates a new dataset import using the resource name of the imported dataset.",
         "operationId": "createDatasetImport",
         "requestBody": {
           "content": {
@@ -5283,7 +5276,7 @@
         }
       ],
       "post": {
-        "description": "Create a new dataset import.",
+        "description": "Creates a new dataset import using the resource name of the imported dataset.",
         "operationId": "createDatasetImportv1",
         "requestBody": {
           "content": {
@@ -5325,7 +5318,7 @@
     },
     "/{tenant}/catalog/v2beta1/fields": {
       "get": {
-        "description": "Get a list of all fields in the Catalog.",
+        "description": "Returns a list of all fields in the Metadata Catalog.",
         "operationId": "listFields",
         "parameters": [
           {
@@ -5407,7 +5400,7 @@
     },
     "/{tenant}/catalog/v2beta1/fields/{fieldid}": {
       "get": {
-        "description": "Get a field that corresponds to a specific field ID.",
+        "description": "Returns the field with the specified field ID.",
         "operationId": "getFieldById",
         "responses": {
           "200": {
@@ -5445,7 +5438,7 @@
     },
     "/{tenant}/catalog/v2beta1/modules": {
       "get": {
-        "description": "Return a list of all modules, unless you specify a filter. Use a filter to return a specific list of modules.",
+        "description": "Returns a list of all modules. Use a filter to return a specific list of modules.",
         "operationId": "listModules",
         "parameters": [
           {
@@ -5496,7 +5489,7 @@
     },
     "/{tenant}/catalog/v2beta1/relationships": {
       "get": {
-        "description": "Returns a list of all relationships, unless you specify a filter. Use a filter to return a specific list of relationships.",
+        "description": "Returns a list of all relationships. Use a filter to return a specific list of relationships.",
         "operationId": "listRelationships",
         "parameters": [
           {
@@ -5573,7 +5566,7 @@
         }
       ],
       "post": {
-        "description": "Create a new relationship.",
+        "description": "Creates a new relationship.",
         "operationId": "createRelationship",
         "requestBody": {
           "content": {
@@ -5611,7 +5604,7 @@
     },
     "/{tenant}/catalog/v2beta1/relationships/{relationshipid}": {
       "delete": {
-        "description": "Delete a specific relationship. Deleting a relationship also deleletes any objects that are dependents of that relationship, such as relationship fields.",
+        "description": "Deletes the relationship with the specified relationship ID. Deleting a relationship also deletes any objects that are dependents of that relationship, such as relationship fields.",
         "operationId": "deleteRelationshipById",
         "responses": {
           "204": {
@@ -5626,7 +5619,7 @@
         }
       },
       "get": {
-        "description": "Get a specific relationship.",
+        "description": "Returns the relationship with the specified relationship ID.",
         "operationId": "getRelationshipById",
         "responses": {
           "200": {
@@ -5659,7 +5652,7 @@
         }
       ],
       "patch": {
-        "description": "Update a specific relationship.",
+        "description": "Modifies the relationship with the specified relationship ID.",
         "operationId": "updateRelationshipById",
         "requestBody": {
           "content": {
@@ -5691,7 +5684,7 @@
     },
     "/{tenant}/catalog/v2beta1/rules": {
       "get": {
-        "description": "Return a list of rules that match a filter query if it is given, otherwise return all rules.",
+        "description": "Returns a list of rules that match a filter, if specified, otherwise returns all rules.",
         "operationId": "listRules",
         "parameters": [
           {
@@ -5771,7 +5764,7 @@
         }
       ],
       "post": {
-        "description": "Create a new rule.",
+        "description": "Creates a new rule.",
         "operationId": "createRule",
         "requestBody": {
           "content": {
@@ -5812,7 +5805,7 @@
     },
     "/{tenant}/catalog/v2beta1/rules/{ruleid}": {
       "delete": {
-        "description": "Delete a specific rule. Deleting a rule also deleletes any objects that are dependents of that rule, such as rule actions.",
+        "description": "Deletes the rule with the specfied ID. Deleting a rule also deleletes any objects that are dependents of that rule, such as rule actions.",
         "operationId": "deleteRuleById",
         "responses": {
           "204": {
@@ -5834,7 +5827,7 @@
         ]
       },
       "get": {
-        "description": "Get information about a specific rule.",
+        "description": "Returns information about rule with the specified rule ID.",
         "operationId": "getRuleById",
         "responses": {
           "200": {
@@ -5845,7 +5838,7 @@
                 }
               }
             },
-            "description": "A rule with the selected rule ID was retrieved."
+            "description": "A rule with the specified rule ID was retrieved."
           },
           "401": {
             "description": "The operation is unauthorized."
@@ -5870,7 +5863,7 @@
         }
       ],
       "patch": {
-        "description": "Update a specific rule.",
+        "description": "Modifies the rule with the specified rule ID.",
         "operationId": "updateRuleById",
         "requestBody": {
           "content": {
@@ -5906,7 +5899,7 @@
     },
     "/{tenant}/catalog/v2beta1/rules/{ruleid}/actions": {
       "get": {
-        "description": "Return the set of actions that are part of a rule.",
+        "description": "Returns the set of actions that are part of the specified rule.",
         "operationId": "listActionsForRuleById",
         "parameters": [
           {
@@ -5992,7 +5985,7 @@
         }
       ],
       "post": {
-        "description": "Create a new action for a specific rule.",
+        "description": "Creates a new action for the specified rule.",
         "operationId": "createActionForRuleById",
         "requestBody": {
           "content": {
@@ -6034,7 +6027,7 @@
     },
     "/{tenant}/catalog/v2beta1/rules/{ruleid}/actions/{actionid}": {
       "delete": {
-        "description": "Delete an action that is part of a specific rule.",
+        "description": "Deletes the action with the specified ID that is associated with the specified rule.",
         "operationId": "deleteActionByIdForRuleById",
         "responses": {
           "204": {
@@ -6053,7 +6046,7 @@
         ]
       },
       "get": {
-        "description": "Return information about an action that is part of a specific rule.",
+        "description": "Returns information about the action with the specified ID that is associated with the specified rule.",
         "operationId": "getActionByIdForRuleById",
         "responses": {
           "200": {
@@ -6092,7 +6085,7 @@
         }
       ],
       "patch": {
-        "description": "Update an action for a specific rule.",
+        "description": "Modifies the action with the specified ID that is associated with the specified rule.",
         "operationId": "updateActionByIdForRuleById",
         "requestBody": {
           "content": {
@@ -6128,7 +6121,7 @@
     },
     "/{tenant}/catalog/v2beta1/rules/{ruleresourcename}": {
       "delete": {
-        "description": "Delete the rule with the specified resource name and its dependencies.",
+        "description": "Deletes the rule with the specified resource name and its dependencies.",
         "operationId": "deleteRule",
         "responses": {
           "204": {
@@ -6150,7 +6143,7 @@
         ]
       },
       "get": {
-        "description": "Get a rule with a specified resource name.",
+        "description": "Returrns the rule with the specified resource name.",
         "operationId": "getRule",
         "responses": {
           "200": {
@@ -6186,7 +6179,7 @@
         }
       ],
       "patch": {
-        "description": "Update the Rule with the specified resourcename",
+        "description": "Modifies the rule with the specified resource name.",
         "operationId": "updateRule",
         "requestBody": {
           "content": {
@@ -6222,7 +6215,7 @@
     },
     "/{tenant}/catalog/v2beta1/rules/{ruleresourcename}/actions": {
       "get": {
-        "description": "Return the list of actions that are part of a specified rule.",
+        "description": "Returns the list of actions that are associated with the specified rule.",
         "operationId": "listActionsForRule",
         "parameters": [
           {
@@ -6308,7 +6301,7 @@
         }
       ],
       "post": {
-        "description": "Create a new action for a rule associated with a specific resource name.",
+        "description": "Creates a new action for a rule with the specified resource name.",
         "operationId": "createActionForRule",
         "requestBody": {
           "content": {
@@ -6350,7 +6343,7 @@
     },
     "/{tenant}/catalog/v2beta1/rules/{ruleresourcename}/actions/{actionid}": {
       "delete": {
-        "description": "Delete an action on a rule.",
+        "description": "Deletes the action with the specified ID that is associated with the specified rule resource name.",
         "operationId": "deleteActionByIdForRule",
         "responses": {
           "204": {
@@ -6369,7 +6362,7 @@
         ]
       },
       "get": {
-        "description": "Return an action that is part of a specified rule.",
+        "description": "Returns the action with the specified ID that is associated with the specified rule resource name.",
         "operationId": "getActionByIdForRule",
         "responses": {
           "200": {
@@ -6408,7 +6401,7 @@
         }
       ],
       "patch": {
-        "description": "Update the Action with the specified id for the specified Rule",
+        "description": "Modifies the action with the specified ID that is associated with the specified rule resource name.",
         "operationId": "updateActionByIdForRule",
         "requestBody": {
           "content": {
@@ -6521,7 +6514,7 @@
         }
       ],
       "post": {
-        "description": "Create a new workflow configuration.",
+        "description": "Creates a new workflow configuration.",
         "operationId": "createWorkflow",
         "requestBody": {
           "content": {
@@ -6559,7 +6552,7 @@
     },
     "/{tenant}/catalog/v2beta1/workflows/{workflowid}": {
       "delete": {
-        "description": "Delete the workflow with the specified workflow ID.",
+        "description": "Deletes the workflow with the specified workflow ID.",
         "operationId": "deleteWorkflowById",
         "responses": {
           "204": {
@@ -6574,7 +6567,7 @@
         }
       },
       "get": {
-        "description": "Return information about a workflow with the specified workflow ID.",
+        "description": "Returns information about the workflow with the specified workflow ID.",
         "operationId": "getWorkflowById",
         "responses": {
           "200": {
@@ -6607,7 +6600,7 @@
         }
       ],
       "patch": {
-        "description": "Update the workflow with the specified workflow ID.",
+        "description": "Modifies the workflow with the specified workflow ID.",
         "operationId": "updateWorkflowById",
         "requestBody": {
           "content": {
@@ -6635,7 +6628,7 @@
     },
     "/{tenant}/catalog/v2beta1/workflows/{workflowid}/builds": {
       "get": {
-        "description": "Return a list of Machine Learning workflow builds.",
+        "description": "Returns a list of Machine Learning workflow builds.",
         "operationId": "listWorkflowBuilds",
         "parameters": [
           {
@@ -6715,7 +6708,7 @@
         }
       ],
       "post": {
-        "description": "Create a new workflow build.",
+        "description": "Creates a new workflow build.",
         "operationId": "createWorkflowBuild",
         "requestBody": {
           "content": {
@@ -6753,7 +6746,7 @@
     },
     "/{tenant}/catalog/v2beta1/workflows/{workflowid}/builds/{workflowbuildid}": {
       "delete": {
-        "description": "Delete the workflow build with the specified workflow build ID.",
+        "description": "Deletes the workflow build with the specified workflow build ID.",
         "operationId": "deleteWorkflowBuildById",
         "responses": {
           "204": {
@@ -6768,7 +6761,7 @@
         }
       },
       "get": {
-        "description": "Return information about the workflow build with the specified workflow build ID.",
+        "description": "Returns information about the workflow build with the specified workflow build ID.",
         "operationId": "getWorkflowBuildById",
         "responses": {
           "200": {
@@ -6804,7 +6797,7 @@
         }
       ],
       "patch": {
-        "description": "Update the workflow build with the specified workflow build ID.",
+        "description": "Modifies the workflow build with the specified workflow build ID.",
         "operationId": "updateWorkflowBuildById",
         "requestBody": {
           "content": {
@@ -6832,7 +6825,7 @@
     },
     "/{tenant}/catalog/v2beta1/workflows/{workflowid}/builds/{workflowbuildid}/runs": {
       "get": {
-        "description": "Return a list of Machine Learning workflow runs for specified workflow build ID.",
+        "description": "Returns a list of Machine Learning workflow runs for specified workflow build ID.",
         "operationId": "listWorkflowRuns",
         "parameters": [
           {
@@ -6915,7 +6908,7 @@
         }
       ],
       "post": {
-        "description": "Create a new workflow run for the specified workflow build ID.",
+        "description": "Creates a new workflow run for the specified workflow build ID.",
         "operationId": "createWorkflowRun",
         "requestBody": {
           "content": {
@@ -6953,7 +6946,7 @@
     },
     "/{tenant}/catalog/v2beta1/workflows/{workflowid}/builds/{workflowbuildid}/runs/{workflowrunid}": {
       "delete": {
-        "description": "Delete the workflow run with the specified workflow run ID.",
+        "description": "Deletes the workflow run with the specified workflow run ID.",
         "operationId": "deleteWorkflowRunById",
         "responses": {
           "204": {
@@ -6968,7 +6961,7 @@
         }
       },
       "get": {
-        "description": "Return information about the workflow run with the specified workflow build ID.",
+        "description": "Returns information about the workflow run with the specified workflow build ID.",
         "operationId": "getWorkflowRunById",
         "responses": {
           "200": {
@@ -7007,7 +7000,7 @@
         }
       ],
       "patch": {
-        "description": "Update the workflow run with the specified workflow run ID.",
+        "description": "Modifies the workflow run with the specified workflow run ID.",
         "operationId": "updateWorkflowRunById",
         "requestBody": {
           "content": {

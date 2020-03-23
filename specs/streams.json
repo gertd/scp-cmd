@@ -1084,18 +1084,6 @@
         },
         "type": "object"
       },
-      "PreviewNodeData": {
-        "description": "",
-        "properties": {
-          "nodes": {
-            "additionalProperties": {
-              "$ref": "#/components/schemas/PreviewNode"
-            },
-            "type": "object"
-          }
-        },
-        "type": "object"
-      },
       "PreviewSessionStartRequest": {
         "description": "",
         "properties": {
@@ -1114,17 +1102,8 @@
             "format": "int64",
             "type": "integer"
           },
-          "streamingConfigurationId": {
-            "description": "Deprecated. Must be null if set.",
-            "format": "int64",
-            "type": "integer"
-          },
           "upl": {
             "$ref": "#/components/schemas/UplPipeline"
-          },
-          "useNewData": {
-            "description": "Deprecated. Must be true if set.",
-            "type": "boolean"
           }
         },
         "required": [
@@ -1165,20 +1144,6 @@
             "type": "integer"
           },
           "recordsPerPipeline": {
-            "format": "int32",
-            "type": "integer"
-          }
-        },
-        "type": "object"
-      },
-      "PreviewStoreResponse": {
-        "description": "",
-        "properties": {
-          "recordsDropped": {
-            "format": "int32",
-            "type": "integer"
-          },
-          "recordsStored": {
             "format": "int32",
             "type": "integer"
           }
@@ -1589,9 +1554,9 @@
     }
   },
   "info": {
-    "description": "With the Streams service in Splunk Cloud Services, you can perform create, read, update, and delete (CRUD) operations on your data pipeline.The Streams service in Splunk Cloud Services also has metrics and preview session endpoints and gives you full control over your data pipeline.",
+    "description": "Use the Streams service to perform create, read, update, and delete (CRUD) operations on your data pipeline. The Streams service also has metrics and preview session endpoints and gives you full control over your data pipeline.",
     "title": "Data Stream Processing REST API",
-    "version": "v2beta1.2"
+    "version": "v2beta1.4"
   },
   "openapi": "3.0.1",
   "paths": {
@@ -4000,10 +3965,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "content": {},
-            "description": "OK"
-          },
           "204": {
             "content": {},
             "description": "No Content"

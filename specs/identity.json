@@ -21,6 +21,24 @@
           "type": "string"
         }
       },
+      "appClientId": {
+        "description": "ID of the app client to authorize",
+        "in": "path",
+        "name": "app_client_id",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "appId": {
+        "description": "The Okta app Id.",
+        "in": "path",
+        "name": "app_id",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
       "clientId": {
         "description": "ID of the client to authorize",
         "in": "query",
@@ -43,6 +61,15 @@
         "description": "PKCE code challenge method",
         "in": "query",
         "name": "code_challenge_method",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "createdBy": {
+        "description": "The principal name.",
+        "in": "query",
+        "name": "created_by",
         "required": false,
         "schema": {
           "type": "string"
@@ -373,6 +400,11 @@
             "description": "Authentication description",
             "type": "string"
           },
+          "requestId": {
+            "description": "Request ID",
+            "maxLength": 36,
+            "type": "string"
+          },
           "sessionToken": {
             "description": "Session token",
             "type": "string"
@@ -591,6 +623,9 @@
       },
       "CreateTenantBody": {
         "properties": {
+          "createdBy": {
+            "type": "string"
+          },
           "name": {
             "$ref": "#/components/schemas/TenantName"
           }
@@ -604,6 +639,11 @@
         "properties": {
           "csrf": {
             "description": "CSRF token",
+            "type": "string"
+          },
+          "requestId": {
+            "description": "Request ID",
+            "maxLength": 36,
             "type": "string"
           }
         },
@@ -730,13 +770,13 @@
           "e": {
             "type": "string"
           },
-          "false": {
-            "type": "string"
-          },
           "kid": {
             "type": "string"
           },
           "kty": {
+            "type": "string"
+          },
+          "n": {
             "type": "string"
           },
           "use": {
@@ -866,6 +906,66 @@
           "addedBy",
           "groupCount"
         ],
+        "type": "object"
+      },
+      "OAuth2Client": {
+        "properties": {
+          "application_type": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "client_id_issued_at": {
+            "type": "integer"
+          },
+          "client_name": {
+            "type": "string"
+          },
+          "client_secret": {
+            "type": "string"
+          },
+          "client_uri": {
+            "type": "string"
+          },
+          "consent_method": {
+            "type": "string"
+          },
+          "grant_types": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "initiate_login_uri": {
+            "type": "string"
+          },
+          "post_logout_redirect_uris": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "redirect_uris": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "response_types": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "token_endpoint_auth_method": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "OktaApp": {
+        "description": "Represents an Okta App (https://developer.okta.com/docs/reference/api/apps/#application-model)",
         "type": "object"
       },
       "PermissionSet": {
@@ -1152,6 +1252,19 @@
         ],
         "type": "object"
       },
+      "TakedownPrincipalBody": {
+        "properties": {
+          "reason": {
+            "maxLength": 280,
+            "minLength": 4,
+            "type": "string"
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "type": "object"
+      },
       "Tenant": {
         "properties": {
           "createdAt": {
@@ -1176,6 +1289,34 @@
         ],
         "type": "object"
       },
+      "TenantAsAdmin": {
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "name": {
+            "$ref": "#/components/schemas/TenantName"
+          },
+          "proxiedBy": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TenantStatus"
+          }
+        },
+        "required": [
+          "name",
+          "status",
+          "createdAt",
+          "createdBy",
+          "proxiedBy"
+        ],
+        "type": "object"
+      },
       "TenantName": {
         "maxLength": 36,
         "minLength": 4,
@@ -1196,6 +1337,7 @@
           "ready",
           "deleting",
           "deleted",
+          "tombstoned",
           "suspended"
         ],
         "type": "string"
@@ -1224,6 +1366,27 @@
           },
           "token_type": {
             "description": "Must be Bearer type",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "UpdateTenantBody": {
+        "properties": {
+          "createdBy": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "provisioning",
+              "ready",
+              "suspending",
+              "suspended",
+              "resuming",
+              "deleting",
+              "tombstoned",
+              "failed"
+            ],
             "type": "string"
           }
         },
@@ -1283,7 +1446,7 @@
   "info": {
     "description": "With the Identity service in Splunk Cloud Services, you can authenticate and authorize Splunk Cloud Services users.",
     "title": "Identity",
-    "version": "v2beta1.15"
+    "version": "v2beta1.18"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -1354,10 +1517,52 @@
         }
       ]
     },
+    "/system/identity/v2beta1/principals/{principal}/revoke": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/principal"
+        }
+      ],
+      "post": {
+        "description": "Revoke all existing tokens issued to a principal. Principals can reset their password by visiting https://login.splunk.com/en_us/page/lost_password",
+        "operationId": "revokePrincipalAuthTokens",
+        "responses": {
+          "204": {
+            "description": "All tokens associated with this principal were successfully revoked."
+          },
+          "400": {
+            "description": "The request isn't valid."
+          },
+          "401": {
+            "description": "The user isn't authenticated."
+          },
+          "403": {
+            "description": "The operation isn't authorized."
+          },
+          "404": {
+            "description": "The resource wasn't found."
+          }
+        },
+        "x-authz-scope": "identity.principals.revoke"
+      }
+    },
     "/{tenant}/identity/v2beta1/groups": {
       "get": {
         "description": "List the groups that exist in a given tenant.",
         "operationId": "listGroups",
+        "parameters": [
+          {
+            "description": "List only the groups with specified access permission.",
+            "in": "query",
+            "name": "access",
+            "schema": {
+              "enum": [
+                "write"
+              ],
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -2022,7 +2227,15 @@
                 }
               }
             },
-            "description": "The set of permissions was successfully returned."
+            "description": "The set of permissions was successfully returned.",
+            "headers": {
+              "Cache-Control": {
+                "description": "max-age=\u003cseconds\u003e, specifies the time member permission can be cached.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "400": {
             "description": "The request isn't valid."

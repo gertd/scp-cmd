@@ -823,7 +823,8 @@
               "running",
               "failed",
               "success",
-              "scheduled"
+              "scheduled",
+              "initializing"
             ],
             "readOnly": true
           },
@@ -1130,7 +1131,8 @@
               "running",
               "failed",
               "success",
-              "scheduled"
+              "scheduled",
+              "initializing"
             ],
             "readOnly": true
           },
@@ -1166,7 +1168,8 @@
     }
   },
   "info": {
-    "title": "Machine Learning service in Splunk Cloud Services",
+    "description": "Use the Machine Learning service in Splunk Cloud Services to deliver resource intensive machine learning workloads. The Machine Learning service covers model experimentation, training, inference, validation, scoring, and serving.",
+    "title": "Machine Learning",
     "version": "v2beta1.1"
   },
   "openapi": "3.0.0",
@@ -2603,7 +2606,6 @@
   },
   "tags": [
     {
-      "description": "Use the Machine Learning service in Splunk Cloud Services to deliver resource intensive machine learning workloads. The Machine Learning service covers model experimentation, training, inference, validation, scoring, and serving.",
       "name": "mlTag"
     }
   ]

@@ -34,6 +34,8 @@
         "name": "jobId",
         "required": true,
         "schema": {
+          "maxLength": 250,
+          "minLength": 1,
           "type": "string"
         }
       },
@@ -78,6 +80,29 @@
     },
     "schemas": {
       "AnyValue": {},
+      "CreateEntitlementsJobBody": {
+        "properties": {
+          "appClientID": {
+            "maxLength": 250,
+            "minLength": 2,
+            "type": "string"
+          },
+          "entitlements": {
+            "$ref": "#/components/schemas/JobEntitlements"
+          },
+          "subscriptionID": {
+            "maxLength": 250,
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        "required": [
+          "appClientID",
+          "subscriptionID",
+          "entitlements"
+        ],
+        "type": "object"
+      },
       "CreateProvisionJobBody": {
         "properties": {
           "apps": {
@@ -120,12 +145,12 @@
       },
       "Entitlement": {
         "properties": {
-          "name": {
+          "appClientID": {
+            "maxLength": 250,
+            "minLength": 2,
             "type": "string"
           },
-          "sku": {
-            "maxLength": 100,
-            "minLength": 2,
+          "name": {
             "type": "string"
           },
           "status": {
@@ -144,11 +169,11 @@
         },
         "required": [
           "name",
-          "sku",
           "value",
           "updatedAt",
           "updatedBy",
-          "status"
+          "status",
+          "appClientID"
         ],
         "type": "object"
       },
@@ -157,10 +182,12 @@
           "action": {
             "type": "string"
           },
-          "name": {
+          "appClientID": {
+            "maxLength": 250,
+            "minLength": 2,
             "type": "string"
           },
-          "sku": {
+          "name": {
             "type": "string"
           },
           "status": {
@@ -179,7 +206,7 @@
         },
         "required": [
           "name",
-          "sku",
+          "appClientID",
           "value",
           "updatedAt",
           "updatedBy",
@@ -208,6 +235,92 @@
           "deleting"
         ],
         "type": "string"
+      },
+      "EntitlementsJobInfo": {
+        "properties": {
+          "appClientID": {
+            "maxLength": 250,
+            "minLength": 2,
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "entitlements": {
+            "$ref": "#/components/schemas/JobEntitlements"
+          },
+          "errors": {
+            "$ref": "#/components/schemas/EntitlementsJobInfoErrors"
+          },
+          "jobID": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "created",
+              "running",
+              "completed",
+              "failed"
+            ],
+            "type": "string"
+          },
+          "subscriptionID": {
+            "maxLength": 250,
+            "minLength": 2,
+            "type": "string"
+          },
+          "tenant": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "jobID",
+          "appClientID",
+          "subscriptionID",
+          "tenant",
+          "entitlements",
+          "status",
+          "createdAt",
+          "createdBy",
+          "errors"
+        ],
+        "type": "object"
+      },
+      "EntitlementsJobInfoErrors": {
+        "items": {
+          "$ref": "#/components/schemas/EntitlementsJobInfoErrorsItems"
+        },
+        "type": "array"
+      },
+      "EntitlementsJobInfoErrorsItems": {
+        "properties": {
+          "app": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "entitlementName": {
+            "type": "string"
+          },
+          "jobStage": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "jobStage",
+          "code",
+          "message"
+        ],
+        "type": "object"
       },
       "Error": {
         "properties": {
@@ -352,6 +465,29 @@
         },
         "type": "array"
       },
+      "JobEntitlement": {
+        "properties": {
+          "name": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          },
+          "value": {
+            "$ref": "#/components/schemas/AnyValue"
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ],
+        "type": "object"
+      },
+      "JobEntitlements": {
+        "items": {
+          "$ref": "#/components/schemas/JobEntitlement"
+        },
+        "type": "array"
+      },
       "ProvisionJobInfo": {
         "properties": {
           "apps": {
@@ -433,17 +569,11 @@
       },
       "SetEntitlement": {
         "properties": {
-          "sku": {
-            "maxLength": 100,
-            "minLength": 2,
-            "type": "string"
-          },
           "value": {
             "$ref": "#/components/schemas/AnyValue"
           }
         },
         "required": [
-          "sku",
           "value"
         ],
         "type": "object"
@@ -712,6 +842,113 @@
           "$ref": "#/components/parameters/JobId"
         }
       ]
+    },
+    "/system/provisioner/v1beta1/jobs/tenants/{tenantName}/entitlements/{jobId}": {
+      "get": {
+        "description": "Returns details of a specific entitlements job.",
+        "operationId": "getEntitlementsJob",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntitlementsJobInfo"
+                }
+              }
+            },
+            "description": "The details of the entitlements job were returned successfully."
+          },
+          "401": {
+            "description": "The user isn't authenticated."
+          },
+          "403": {
+            "description": "The operation isn't authorized."
+          },
+          "404": {
+            "description": "The resource wasn't found."
+          },
+          "429": {
+            "description": "Too many requests were sent."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The reason for the error"
+          }
+        },
+        "x-authz-scope": "identity.tenants.entitlements.read"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/AuthorizationHeader"
+        },
+        {
+          "$ref": "#/components/parameters/JobId"
+        },
+        {
+          "$ref": "#/components/parameters/TenantName"
+        }
+      ],
+      "put": {
+        "operationId": "createEntitlementsJob",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEntitlementsJobBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntitlementsJobInfo"
+                }
+              }
+            },
+            "description": "The entitlements job was successfully created."
+          },
+          "401": {
+            "description": "The user isn't authenticated."
+          },
+          "403": {
+            "description": "The operation isn't authorized."
+          },
+          "404": {
+            "description": "The resource wasn't found."
+          },
+          "422": {
+            "description": "The provided fields aren't valid."
+          },
+          "423": {
+            "description": "The resource is locked."
+          },
+          "429": {
+            "description": "Too many requests were sent."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The reason for the error"
+          }
+        },
+        "summary": "Creates an entitlements job.",
+        "x-authz-scope": "identity.tenants.entitlements.write"
+      }
     },
     "/system/provisioner/v1beta1/tenants": {
       "get": {
