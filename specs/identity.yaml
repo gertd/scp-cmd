@@ -1043,11 +1043,7 @@ info:
     description: With the Identity service in Splunk Cloud Services, you can authenticate
         and authorize Splunk Cloud Services users.
     title: Identity
-<<<<<<< HEAD
     version: v2beta1.18
-=======
-    version: v2beta1.17
->>>>>>> cb34c02afc0192c42746c9e9d56b6c168e238714
 openapi: 3.0.0
 paths:
     /{tenant}/identity/v2beta1/groups:
